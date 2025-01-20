@@ -76,19 +76,21 @@ const NavBar = () => {
         </div>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex gap-8 items-center">
+        <div className="hidden lg:flex gap-8 items-center">
           <ul className="flex gap-8 text-lg font-medium">{links}</ul>
         </div>
 
         {/* CTA Button */}
-        <div className="hidden md:block">
-          <Link to='/auth/login'><button className="bg-white text-teal-500 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition">
-            Join With US
-          </button></Link>
+        <div className="hidden lg:block">
+          <Link to='/auth/login'>
+            <button className="bg-white text-teal-500 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition">
+              Join With US
+            </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden">
+        <div className="lg:hidden">
           <button onClick={toggleMobileMenu} className="text-white hover:text-gray-200">
             {isMobileMenuOpen ? <FaTimes className="text-3xl text-red-600" /> : <FaBars className="text-3xl" />}
           </button>
@@ -99,9 +101,13 @@ const NavBar = () => {
       {isMobileMenuOpen && (
         <div className="bg-white text-gray-800 fixed inset-y-0 left-0 w-64 shadow-lg z-50 p-4">
           <ul className="space-y-4 text-lg font-medium">{links}</ul>
-          <ul className=" text-lg">          <Link to='/auth/login'><button className="bg-white text-teal-500  py-2 rounded-full font-semibold hover:bg-teal-100 transition">
-            Join With US
-          </button></Link></ul>
+          <ul className="text-lg">
+            <Link to='/auth/login'>
+              <button className="bg-white text-teal-500 py-2 rounded-full font-semibold hover:bg-teal-100 transition">
+                Join With US
+              </button>
+            </Link>
+          </ul>
         </div>
       )}
     </nav>
