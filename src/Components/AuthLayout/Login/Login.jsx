@@ -4,8 +4,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../../assets/Lottie/login.json";
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
-import useAuth from "../../../Hooks/useAuth";
+
 import Swal from "sweetalert2";
+import SocialLogin from "../SocialLogin/SocialLogin";
+import useAuth from "../../../Hooks/useAuth";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -44,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex h-screen flex-col lg:flex-row md:flex-row">
+    <div className="flex  flex-col lg:flex-row md:flex-row">
       {/* Left Section */}
       <div className="md:w-1/2 lg:w-1/2 bg-teal-800 flex items-center justify-center p-6">
         <div className="text-center">
@@ -56,7 +58,7 @@ const Login = () => {
       </div>
 
       {/* Right Section */}
-      <div className="md:w-1/2 lg:w-1/2 flex items-center justify-center bg-base-100 pt-0 p-6">
+      <div className="md:w-[40%] w-[90%] mx-auto flex items-center justify-center bg-base-100 pt-0 p-6">
         <div className="w-full max-w-md">
           <h2 className="text-5xl font-bold mb-6 text-center pt-6">Sign in</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -142,20 +144,21 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-teal-500 text-white font-semibold rounded-md py-2 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full btn bg-teal-500 text-white font-semibold rounded-md py-2 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               Sign In
             </button>
           </form>
+          <SocialLogin></SocialLogin>
 
           <div className="mt-4 text-center text-gray-600">
             <p className="mb-6">
-              Please register first. Go to{" "}
+              Don't have account?{" "}
               <Link
                 to="/auth/register"
                 className="text-teal-500 font-semibold hover:underline"
               >
-                SIGN UP
+                Register
               </Link>
             </p>
           </div>

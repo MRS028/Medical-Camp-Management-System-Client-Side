@@ -8,6 +8,7 @@ import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { FaPhotoFilm } from "react-icons/fa6";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -75,19 +76,23 @@ const Register = () => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen px-4 py-8">
       {/* Left Section with Lottie Animation */}
-      <div className="md:w-1/2 flex items-center justify-center mb-8 md:mb-0">
-        <Lottie options={defaultOptions} height={300} width={400} />
-        {/* <Lottie animationData={doctorAnimation} loop={true} /> */}
-      </div>
-
-      {/* Right Section with Registration Form */}
-      <div className="md:w-1/2  bg-white bg-opacity-10 p-8 rounded-2xl shadow-2xl duration-300">
-        <h2 className="text-4xl font-extrabold mb-4 text-center">
+      <div className="md:w-1/2 items-center justify-center mb-8 md:mb-0">
+      <h2 className="lg:text-5xl text-2xl font-extrabold mb-4 text-center">
           Welcome to MediCamp
         </h2>
         <p className="text-center mb-6">
           Join our community and get access to premium healthcare resources.
         </p>
+        <Lottie options={defaultOptions} height={400} width={340} />
+        {/* <Lottie animationData={doctorAnimation} loop={true} /> */}
+      </div>
+
+      {/* Right Section with Registration Form */}
+      <div className="md:w-[40%]  bg-white bg-opacity-10 p-8 rounded-2xl shadow-2xl duration-300">
+        <h2 className="text-4xl font-extrabold mb-4 text-center">
+         Register
+        </h2>
+        
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
           {/* Name Field */}
           <div className="relative">
@@ -216,13 +221,14 @@ const Register = () => {
             Create Account
           </button>
         </form>
+        <SocialLogin></SocialLogin>
         <p className="text-center mt-6">
           Already registered?{" "}
           <Link
             to="/auth/login"
             className="text-teal-300 hover:underline font-bold"
           >
-            Sign In
+            Log In
           </Link>
         </p>
       </div>

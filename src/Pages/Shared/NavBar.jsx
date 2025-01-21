@@ -52,7 +52,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/medical-camps"
+          to="/availableCamps"
           className={({ isActive }) =>
             isActive
               ? "text-blue-600 font-semibold border-b-2 border-blue-600"
@@ -60,7 +60,7 @@ const NavBar = () => {
           }
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          Medical Camps
+          Available Camps
         </NavLink>
       </li>
       <li>
@@ -110,6 +110,17 @@ const NavBar = () => {
         <div className="hidden lg:block">
           {user ? (
             <>
+              <div
+                className="tooltip tooltip-left lg:tooltip-bottom text-base-content font-semibold mr-2"
+                data-tip={user?.email || "Anonymous User"}
+              >
+                <img
+                  className="inline-block w-10  h-10 rounded-full cursor-pointer"
+                  src={user?.photoURL || "userPhoto"}
+                  alt="User Avatar"
+                />
+              </div>
+
               <button
                 onClick={handleLogOut}
                 className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
@@ -130,6 +141,22 @@ const NavBar = () => {
 
         {/* Mobile Menu Button */}
         <div className="lg:hidden">
+          {/* {user && user?.email ? (
+            <>
+              <div
+                className="tooltip tooltip-left  lg:tooltip-bottom text-base-content font-semibold mr-2"
+                data-tip={user?.email || "Anonymous User"}
+              >
+                <img
+                  className="inline-block w-8  h-8 rounded-full cursor-pointer"
+                  src={user?.photoURL || "userPhoto"}
+                  alt="User Avatar"
+                />
+              </div>
+            </>
+          ) : (
+            <></>
+          )} */}
           <button
             onClick={toggleMobileMenu}
             className="text-white hover:text-gray-200"
@@ -152,7 +179,7 @@ const NavBar = () => {
               <>
                 <button
                   onClick={handleLogOut}
-                  className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
+                  className="bg-red-600 text-white px-4 mt-5 py-1 rounded-full font-semibold hover:bg-red-700 transition"
                 >
                   LogOut
                 </button>
@@ -160,7 +187,7 @@ const NavBar = () => {
             ) : (
               <>
                 <Link to="/auth/login">
-                  <button className="bg-white text-teal-500 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition">
+                  <button className="bg-white text-teal-500  py-2 rounded-full font-semibold hover:bg-teal-100 transition">
                     Join With US
                   </button>
                 </Link>
