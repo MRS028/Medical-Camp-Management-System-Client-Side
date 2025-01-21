@@ -6,6 +6,8 @@ import Login from "../Components/AuthLayout/Login/Login";
 import Register from "../Components/AuthLayout/Register/Register";
 import AvailableCamps from "../Pages/AvailableCamp/AvailableCamp";
 import CampDetails from "../Pages/CampDetails/CampDetails";
+import JoinCampModal from "../Pages/JoinCCamp/JoinCampModal";
+import PrivateRoute from "./PrivateRoute";
 
 const Router = createBrowserRouter([
   {
@@ -18,13 +20,17 @@ const Router = createBrowserRouter([
       },
       {
         path: "/availableCamps",
-        element: <AvailableCamps></AvailableCamps>
+        element: <AvailableCamps></AvailableCamps>,
       },
       {
         path: "/campDetails/:id",
-        element: <CampDetails></CampDetails>
-
+        element: (
+          <PrivateRoute>
+            <CampDetails></CampDetails>
+          </PrivateRoute>
+        ),
       },
+
       {
         path: "",
         element: <AuthLayout></AuthLayout>,

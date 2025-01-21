@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Lottie from "react-lottie";
 import doctorAnimation from "../../../assets/Lottie/register.json";
@@ -15,6 +15,9 @@ const Register = () => {
   const { createUser, updateUserProfile } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+  useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
   //form-hook
   const {
     register,

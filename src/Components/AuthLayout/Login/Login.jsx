@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
@@ -19,6 +19,9 @@ const Login = () => {
   const { logIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   const from = location.state?.from?.pathname || "/";
 
