@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../../assets/Lottie/login.json";
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import useAuth from "../../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -14,9 +15,26 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const { logIn } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const onSubmit = (data) => {
     console.log(data);
+    logIn(data.email, data.password).then((result) => {
+      const user = result.user;
+      console.log("Logged in user : ", user);
+      Swal.fire({
+        title: "Login Success",
+        text: "Assalamuwalaikum, Welcome to our MediCamp",
+        icon: "success",
+        timer: 1500,
+      });
+      navigate(from, { replace: true });
+
+      // console.log(user);
+    });
   };
 
   const lottieOptions = {
