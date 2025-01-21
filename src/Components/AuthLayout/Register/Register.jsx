@@ -17,10 +17,11 @@ const Register = () => {
   //form-hook
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
-//form-submission
+  //form-submission
   const onSubmit = (data) => {
     console.log(data);
     createUser(data.email, data.password).then((result) => {
@@ -43,7 +44,7 @@ const Register = () => {
 
               if (res.data.insertedId) {
                 console.log("User added to the database");
-                // reset();
+                reset();
                 Swal.fire({
                   position: "top",
                   icon: "success",
@@ -76,6 +77,7 @@ const Register = () => {
       {/* Left Section with Lottie Animation */}
       <div className="md:w-1/2 flex items-center justify-center mb-8 md:mb-0">
         <Lottie options={defaultOptions} height={300} width={400} />
+        {/* <Lottie animationData={doctorAnimation} loop={true} /> */}
       </div>
 
       {/* Right Section with Registration Form */}
@@ -104,35 +106,9 @@ const Register = () => {
                 {...register("name", { required: "Full name is required" })}
                 className="w-full pl-10 py-3 border-2 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
               />
-              {errors.fullName && (
+              {errors.name && (
                 <p className="text-red-500 text-sm mt-1">
-                  {errors.fullName.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Username Field */}
-          <div className="relative">
-            <label
-              htmlFor="username"
-              className="text-sm font-semibold text-gray-700 mb-1 block"
-            >
-              Profile Photo Link
-            </label>
-            <div className="relative">
-              <FaPhotoFilm className="absolute top-4 left-3 text-gray-400" />
-              <input
-                id="username"
-                type="text"
-                placeholder="Give Your Profile Link"
-                // { required: "Username is required" }
-                {...register("photoURL", )}
-                className="w-full pl-10 border-2 py-3 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
-              />
-              {errors.username && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.username.message}
+                  {errors.name.message}
                 </p>
               )}
             </div>
@@ -164,6 +140,32 @@ const Register = () => {
               {errors.email && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors.email.message}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Username Field */}
+          <div className="relative">
+            <label
+              htmlFor="username"
+              className="text-sm font-semibold text-gray-700 mb-1 block"
+            >
+              Profile Photo Link
+            </label>
+            <div className="relative">
+              <FaPhotoFilm className="absolute top-4 left-3 text-gray-400" />
+              <input
+                id="username"
+                type="text"
+                placeholder="Give Your Profile Link"
+                // { required: "Username is required" }
+                {...register("photoURL")}
+                className="w-full pl-10 border-2 py-3 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
+              />
+              {errors.photoURL && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.photoURL.message}
                 </p>
               )}
             </div>

@@ -1,12 +1,38 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes, FaFirstAid } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, logOut } = useAuth();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+  const handleLogOut = () => {
+    Swal.fire({
+      title: "Are you sure to Log Out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+      cancelButtonText: "NO",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut()
+          .then(() => {})
+          .catch((err) => console.log(err));
+        Swal.fire({
+          title: "Successfully Logged Out",
+          text: "Stay Blessed,Allah will help You.",
+          icon: "success",
+          timer: 1500,
+        });
+      }
+    });
   };
 
   const links = (
@@ -82,17 +108,37 @@ const NavBar = () => {
 
         {/* CTA Button */}
         <div className="hidden lg:block">
-          <Link to='/auth/login'>
-            <button className="bg-white text-teal-500 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition">
-              Join With US
-            </button>
-          </Link>
+          {user ? (
+            <>
+              <button
+                onClick={handleLogOut}
+                className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
+              >
+                LogOut
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/auth/login">
+                <button className="bg-white text-teal-500 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition">
+                  Join With US
+                </button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
         <div className="lg:hidden">
-          <button onClick={toggleMobileMenu} className="text-white hover:text-gray-200">
-            {isMobileMenuOpen ? <FaTimes className="text-3xl text-red-600" /> : <FaBars className="text-3xl" />}
+          <button
+            onClick={toggleMobileMenu}
+            className="text-white hover:text-gray-200"
+          >
+            {isMobileMenuOpen ? (
+              <FaTimes className="text-3xl text-red-600" />
+            ) : (
+              <FaBars className="text-3xl" />
+            )}
           </button>
         </div>
       </div>
@@ -102,11 +148,24 @@ const NavBar = () => {
         <div className="bg-white text-gray-800 fixed inset-y-0 left-0 w-64 shadow-lg z-50 p-4">
           <ul className="space-y-4 text-lg font-medium">{links}</ul>
           <ul className="text-lg">
-            <Link to='/auth/login'>
-              <button className="bg-white text-teal-500 py-2 rounded-full font-semibold hover:bg-teal-100 transition">
-                Join With US
-              </button>
-            </Link>
+            {user ? (
+              <>
+                <button
+                  onClick={handleLogOut}
+                  className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
+                >
+                  LogOut
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/auth/login">
+                  <button className="bg-white text-teal-500 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition">
+                    Join With US
+                  </button>
+                </Link>
+              </>
+            )}
           </ul>
         </div>
       )}
