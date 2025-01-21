@@ -42,8 +42,8 @@ const NavBar = () => {
           to="/"
           className={({ isActive }) =>
             isActive
-              ? "text-blue-600 font-semibold border-b-2 border-blue-600"
-              : "text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-600"
+              ? "text-white font-semibold border-b"
+              : "text-gray-800 hover:text-white hover:border-b-2 hover:border-white"
           }
           onClick={() => setIsMobileMenuOpen(false)}
         >
@@ -55,8 +55,8 @@ const NavBar = () => {
           to="/availableCamps"
           className={({ isActive }) =>
             isActive
-              ? "text-blue-600 font-semibold border-b-2 border-blue-600"
-              : "text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-600"
+              ? "text-white font-semibold border-b"
+              : "text-gray-800 hover:text-white hover:border-b-2 hover:border-white"
           }
           onClick={() => setIsMobileMenuOpen(false)}
         >
@@ -68,8 +68,8 @@ const NavBar = () => {
           to="/doctors"
           className={({ isActive }) =>
             isActive
-              ? "text-blue-600 font-semibold border-b-2 border-blue-600"
-              : "text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-600"
+              ? "text-white font-semibold border-b"
+              : "text-gray-800 hover:text-white hover:border-b-2 hover:border-white"
           }
           onClick={() => setIsMobileMenuOpen(false)}
         >
@@ -78,11 +78,11 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/contact-us"
+          to="/contact"
           className={({ isActive }) =>
             isActive
-              ? "text-blue-600 font-semibold border-b-2 border-blue-600"
-              : "text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-600"
+              ? "text-white font-semibold border-b"
+              : "text-gray-800 hover:text-white hover:border-b-2 hover:border-white"
           }
           onClick={() => setIsMobileMenuOpen(false)}
         >

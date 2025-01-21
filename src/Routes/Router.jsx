@@ -5,6 +5,7 @@ import AuthLayout from "../Components/AuthLayout/AuthLayout/AuthLayout";
 import Login from "../Components/AuthLayout/Login/Login";
 import Register from "../Components/AuthLayout/Register/Register";
 import AvailableCamps from "../Pages/AvailableCamp/AvailableCamp";
+import CampDetails from "../Pages/CampDetails/CampDetails";
 
 const Router = createBrowserRouter([
   {
@@ -18,6 +19,11 @@ const Router = createBrowserRouter([
       {
         path: "/availableCamps",
         element: <AvailableCamps></AvailableCamps>
+      },
+      {
+        path: "/campDetails/:id",
+        element: <CampDetails></CampDetails>
+
       },
       {
         path: "",
