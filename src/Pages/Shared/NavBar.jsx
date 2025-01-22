@@ -78,7 +78,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/contact"
+          to="/dashboard"
           className={({ isActive }) =>
             isActive
               ? "text-white font-semibold border-b"
@@ -86,7 +86,7 @@ const NavBar = () => {
           }
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          Contact Us
+          Dashboard
         </NavLink>
       </li>
     </>
@@ -172,7 +172,7 @@ const NavBar = () => {
 
       {/* Mobile Sidebar Menu */}
       {isMobileMenuOpen && (
-        <div className="bg-white text-gray-800 fixed inset-y-0 left-0 w-64 shadow-lg z-50 p-4">
+        <div className="bg-gradient-to-r from-teal-500 to-green-400 text-gray-800 fixed inset-y-0 left-0 w-64 shadow-lg z-50 p-4">
           <ul className="space-y-4 text-lg font-medium">{links}</ul>
           <ul className="text-lg">
             {user ? (

@@ -38,6 +38,7 @@ const Register = () => {
             name: data.name,
             email: data.email,
             photoURL: data.photoURL,
+            role: 'user'
           };
           console.log(userInfo);
 

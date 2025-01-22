@@ -8,6 +8,9 @@ import AvailableCamps from "../Pages/AvailableCamp/AvailableCamp";
 import CampDetails from "../Pages/CampDetails/CampDetails";
 import JoinCampModal from "../Pages/JoinCCamp/JoinCampModal";
 import PrivateRoute from "./PrivateRoute";
+import DashBoard from "../Dashboard/Dashboard/DashBoard";
+import AdminRoute from "./AdminRoute";
+import AddCamp from "../Dashboard/AddCamp/AddCamp";
 
 const Router = createBrowserRouter([
   {
@@ -30,6 +33,7 @@ const Router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      
 
       {
         path: "",
@@ -46,6 +50,21 @@ const Router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashBoard/>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: 'addCamp',
+        element: <AdminRoute><AddCamp/></AdminRoute>
+      }
+    ]
+    
   },
   {
     path: "/*",
