@@ -176,10 +176,10 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
 
           {/* Actions */}
           <div className="form-actions flex justify-end space-x-2">
-            <button type="button" className="btn btn-ghost" onClick={onClose}>
+            <button type="button" className="btn btn-ghost bg-red-600 text-white hover:bg-red-800" onClick={onClose}>
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn text-white  bg-gradient-to-r from-teal-500 to-green-400">
               Register
             </button>
           </div>

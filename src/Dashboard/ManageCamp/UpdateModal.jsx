@@ -161,14 +161,14 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
           <div className="flex justify-end mt-4 space-x-2">
             <button
               type="button"
-              className="px-4 py-2 bg-gray-400 text-white rounded"
+              className="px-4 py-2 bg-red-600 hover:bg-red-800  text-white rounded"
               onClick={onClose}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded"
+              className="px-4 py-2 text-white  bg-gradient-to-r from-teal-500 to-green-400 rounded "
             >
               Update
             </button>

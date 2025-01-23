@@ -19,13 +19,13 @@ const ManageCamp = () => {
 
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
-      title: "Are you sure?",
-      text: "This action cannot be undone!",
+      title: "Are you sure to delete this camp?",
+      text: "Once you delete it cannot be undone!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonColor: "#1bb1b1",
+      confirmButtonText: "Yes, Delete it!",
     });
 
     if (confirm.isConfirmed) {
@@ -39,6 +39,17 @@ const ManageCamp = () => {
 
   const handleUpdate = async (id, updatedData) => {
     const res = await axiosSecure.patch(`/camp/${id}`, updatedData);
+    if(!res.data.modifiedCount){
+        Swal.fire({
+            title: "You don't change anything yet!",
+            text: "If You want then make updates.",
+            icon: "error",
+            timer: 20000,
+            cancelButtonColor: "#1bb1b1",
+            showConfirmButton: true, 
+          });
+       
+    }
     if (res.data.modifiedCount > 0) {
       setCamps(
         camps.map((camp) =>
@@ -50,6 +61,7 @@ const ManageCamp = () => {
         text: "The camp has been updated successfully.",
         icon: "success",
         timer: 1500,
+        cancelButtonColor: "#1bb1b1",
         showConfirmButton: true, 
       });
       
@@ -70,6 +82,9 @@ const ManageCamp = () => {
                 #
               </th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                Image
+              </th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
                 Name
               </th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
@@ -77,6 +92,9 @@ const ManageCamp = () => {
               </th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
                 Fees
+              </th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                Participent
               </th>
               <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600">
                 Actions
@@ -92,6 +110,7 @@ const ManageCamp = () => {
                 } hover:bg-gray-100`}
               >
                 <td className="px-6 py-4 text-sm text-gray-700">{index + 1}</td>
+                <td className="px-6 py-4 text-sm text-gray-700"><img src={camp.image} alt="" className="w-12 h-10 rounded-lg"/></td>
                 <td className="px-6 py-4 text-sm text-gray-700">{camp.name}</td>
                 <td className="px-6 py-4 text-sm text-gray-700">
                   {camp.location}
@@ -99,7 +118,10 @@ const ManageCamp = () => {
                 <td className="px-6 py-4 text-sm text-gray-700">
                   ${camp.campFees}
                 </td>
-                <td className="px-6 py-4 text-center space-x-2">
+                <td className="px-6 py-4 text-sm text-center text-gray-700">
+                  {camp.participants}
+                </td>
+                <td className="px-6 py-4 text-center space-y-2">
                   <button
                     className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 focus:outline-none"
                     onClick={() => setSelectedCamp(camp)}
