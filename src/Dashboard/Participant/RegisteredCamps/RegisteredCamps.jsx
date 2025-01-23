@@ -10,27 +10,16 @@ import {
 } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import { useState } from "react";
+import useJoinedCamps from "../../../Hooks/useJoinedCamps";
 
 const RegisteredCamps = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
+  const [JoinedCamps, isError, loading] = useJoinedCamps();
+  //   console.log(JoinedCamps)
 
-  const {
-    data: camps = [],
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery({
-    queryKey: ["camps"],
-    queryFn: async () => {
-      const res = await axiosSecure.get(`/registeredCamps/${user.email}`);
-      console.log("API Response:", res.data);
-      return res.data;
-    },
-  });
-
-  if (isLoading) {
+  if (loading) {
     return <LoadingPage />;
   }
 
@@ -42,25 +31,11 @@ const RegisteredCamps = () => {
     );
   }
 
-  if (!Array.isArray(camps)) {
-    console.error("Camps is not an array:", camps);
-    return (
-      <div className="text-center mt-6 text-red-500">
-        Data format is incorrect. Please contact support.
-      </div>
-    );
-  }
-  const filteredCamps = camps.filter((camp) =>
-    camp.campName.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCamps = JoinedCamps.filter(
+    (camp) =>
+      camp.campName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      camp.campFees.toString().includes(searchTerm)
   );
-
-  //   if (camps.length === 0) {
-  //     return (
-  //       <div className="text-center mt-6 text-gray-500">
-  //         No registered camps found for this user.
-  //       </div>
-  //     );
-  //   }
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-300 min-h-screen">
@@ -100,9 +75,9 @@ const RegisteredCamps = () => {
             </tr>
           </thead>
           <tbody>
-            {camps.map((camp, index) => (
+            {filteredCamps.map((camp, index) => (
               <tr
-                key={camp.id}
+                key={camp._id}
                 className="text-center border-t hover:bg-gray-100 transition-all duration-200"
               >
                 <td className="px-6 py-4 text-gray-700 font-medium">
@@ -123,7 +98,7 @@ const RegisteredCamps = () => {
                     </span>
                   ) : (
                     <button
-                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center"
+                      className="bg-gradient-to-r from-teal-500 to-green-400 text-white px-4 py-2 rounded  flex items-center justify-center"
                       data-tooltip-id="payment-tooltip"
                       data-tooltip-content="Complete your payment"
                     >
@@ -162,7 +137,7 @@ const RegisteredCamps = () => {
                 <td className="px-6 py-4  gap-4">
                   {camp.feedback ? (
                     <button
-                      className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 flex items-center"
+                      className="bg-gradient-to-r from-teal-500 to-green-400 text-white px-4 py-2 rounded  flex items-center"
                       data-tooltip-id="feedback-tooltip"
                       data-tooltip-content="Give your feedback"
                     >
@@ -176,7 +151,7 @@ const RegisteredCamps = () => {
             ))}
           </tbody>
         </table>
-        {camps.length === 0 ? (
+        {JoinedCamps.length === 0 ? (
           <div className="text-center m-6 text-red-600">
             No registered camps found for this user.
           </div>

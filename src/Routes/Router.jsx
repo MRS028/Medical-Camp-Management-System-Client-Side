@@ -16,6 +16,8 @@ import ManageCamp from "../Dashboard/ManageCamp/ManageCamp";
 import ParticipantProfile from "../Dashboard/Participant/ParticipantProfile/ParticipantProfile";
 import RegisteredCamps from "../Dashboard/Participant/RegisteredCamps/RegisteredCamps";
 import ManageRegisteredCamps from "../Dashboard/Admin/ManageRegisteredCamps/ManageRegisteredCamps";
+import Analytics from "../Dashboard/Participant/Analytic/Analytics";
+import PaymentHistory from "../Dashboard/Participant/PaymentHistory/PaymentHistory";
 
 const Router = createBrowserRouter([
   {
@@ -109,6 +111,22 @@ const Router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <RegisteredCamps />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "analytics",
+        element: (
+          <PrivateRoute>
+            <Analytics/>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "paymentHistory",
+        element: (
+          <PrivateRoute>
+            <PaymentHistory/>
           </PrivateRoute>
         ),
       },

@@ -109,19 +109,19 @@ const ManageCamp = () => {
                   index % 2 === 0 ? "bg-gray-50" : "bg-white"
                 } hover:bg-gray-100`}
               >
-                <td className="px-6 py-4 text-sm text-gray-700">{index + 1}</td>
-                <td className="px-6 py-4 text-sm text-gray-700"><img src={camp.image} alt="" className="w-12 h-10 rounded-lg"/></td>
-                <td className="px-6 py-4 text-sm text-gray-700">{camp.name}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">
+                <td className="px-6 py-4 text-sm font-semibold text-gray-700">{index + 1}</td>
+                <td className="px-6 py-4 text-sm font-semibold text-gray-700"><img src={camp.image} alt="" className="w-12 h-10 rounded-lg"/></td>
+                <td className="px-6 py-4 text-sm font-semibold text-gray-700">{camp.name}</td>
+                <td className="px-6 py-4 text-sm font-semibold text-gray-700">
                   {camp.location}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-700">
+                <td className="px-6 py-4 text-sm font-semibold text-gray-700">
                   ${camp.campFees}
                 </td>
-                <td className="px-6 py-4 text-sm text-center text-gray-700">
+                <td className="px-6 py-4 text-sm font-semibold text-center text-gray-700">
                   {camp.participants}
                 </td>
-                <td className="px-6 py-4 text-center space-y-2">
+                <td className="px-6 py-4 text-center font-semibold space-y-2">
                   <button
                     className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 focus:outline-none"
                     onClick={() => setSelectedCamp(camp._id)}
