@@ -13,6 +13,9 @@ import AdminRoute from "./AdminRoute";
 import AddCamp from "../Dashboard/AddCamp/AddCamp";
 import AllUsers from "../Dashboard/Users/AllUsers";
 import ManageCamp from "../Dashboard/ManageCamp/ManageCamp";
+import ParticipantProfile from "../Dashboard/Participant/ParticipantProfile/ParticipantProfile";
+import RegisteredCamps from "../Dashboard/Participant/RegisteredCamps/RegisteredCamps";
+import ManageRegisteredCamps from "../Dashboard/Admin/ManageRegisteredCamps/ManageRegisteredCamps";
 
 const Router = createBrowserRouter([
   {
@@ -82,6 +85,31 @@ const Router = createBrowserRouter([
           <AdminRoute>
             <ManageCamp />
           </AdminRoute>
+        ),
+      },
+      {
+        path: "manageRegisteredCamps",
+        element: (
+          <AdminRoute>
+            <ManageRegisteredCamps/>
+          </AdminRoute>
+        ),
+      },
+      //participant routes
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute>
+            <ParticipantProfile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "registeredCamps",
+        element: (
+          <PrivateRoute>
+            <RegisteredCamps />
+          </PrivateRoute>
         ),
       },
     ],

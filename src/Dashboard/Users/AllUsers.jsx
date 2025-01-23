@@ -1,22 +1,13 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { FaEdit, FaTrash, FaUserShield } from "react-icons/fa";
+import { FaEdit, FaRegTired, FaTrash, FaUserShield } from "react-icons/fa";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import SectionTitle from "../../Components/SectionTitle/SectionTitle";
+import useUsers from "../../Hooks/useUsers";
+import LoadingPage from "../../Pages/Loading/LoadingPage";
 
 const AllUsers = () => {
-  const axiosSecure = useAxiosSecure();
-  const {
-    data: users = [],
-    refetch,
-    isLoading,
-  } = useQuery({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const res = await axiosSecure.get("/users");
-      return res.data;
-    },
-  });
+  const [users,loading] = useUsers();
 
   const handleUpdate = (id) => {
     console.log("Update user with ID:", id);
@@ -24,16 +15,16 @@ const AllUsers = () => {
   };
 
   const handleDelete = (id) => {
+    console.log(id)
     // setUsers(users.filter((user) => user.id !== id));
   };
 
   const handleToggleAdmin = (id) => {
-    setUsers(
-      users.map((user) =>
-        user.id === id ? { ...user, isAdmin: !user.isAdmin } : user
-      )
-    );
+    console.log(id)
   };
+  if(loading){
+    return <LoadingPage></LoadingPage>
+  }
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -71,7 +62,7 @@ const AllUsers = () => {
           <tbody>
             {users.map((user, index) => (
               <tr
-                key={user.id}
+                key={user._id}
                 className={`${
                   index % 2 === 0 ? "bg-gray-50" : "bg-white"
                 } hover:bg-blue-50`}
@@ -110,13 +101,13 @@ const AllUsers = () => {
                 <td className="px-6 py-4 text-center space-x-2">
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm hover:bg-blue-600 focus:outline-none"
-                    onClick={() => handleUpdate(user.id)}
+                    onClick={() => handleUpdate(user._id)}
                   >
                     <FaEdit />
                   </button>
                   <button
                     className="bg-red-500 text-white px-3 py-1 rounded-full text-sm hover:bg-red-600 focus:outline-none"
-                    onClick={() => handleDelete(user.id)}
+                    onClick={() => handleDelete(user._id)}
                   >
                     <FaTrash />
                   </button>
@@ -126,7 +117,7 @@ const AllUsers = () => {
                         ? "bg-gray-500 hover:bg-gray-600"
                         : "bg-green-500 hover:bg-green-600"
                     }`}
-                    onClick={() => handleToggleAdmin(user.id)}
+                    onClick={() => handleToggleAdmin(user._id)}
                   >
                     <FaUserShield />
                   </button>

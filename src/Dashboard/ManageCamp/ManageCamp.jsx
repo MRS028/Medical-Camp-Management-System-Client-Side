@@ -124,7 +124,7 @@ const ManageCamp = () => {
                 <td className="px-6 py-4 text-center space-y-2">
                   <button
                     className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 focus:outline-none"
-                    onClick={() => setSelectedCamp(camp)}
+                    onClick={() => setSelectedCamp(camp._id)}
                   >
                     <FaEdit />
                   </button>
