@@ -11,6 +11,8 @@ import PrivateRoute from "./PrivateRoute";
 import DashBoard from "../Dashboard/Dashboard/DashBoard";
 import AdminRoute from "./AdminRoute";
 import AddCamp from "../Dashboard/AddCamp/AddCamp";
+import AllUsers from "../Dashboard/Users/AllUsers";
+import ManageCamp from "../Dashboard/ManageCamp/ManageCamp";
 
 const Router = createBrowserRouter([
   {
@@ -33,7 +35,6 @@ const Router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      
 
       {
         path: "",
@@ -55,16 +56,35 @@ const Router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <PrivateRoute>
-        <DashBoard/>
+        <DashBoard />
       </PrivateRoute>
     ),
     children: [
       {
-        path: 'addCamp',
-        element: <AdminRoute><AddCamp/></AdminRoute>
-      }
-    ]
-    
+        path: "addCamp",
+        element: (
+          <AdminRoute>
+            <AddCamp />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "allUsers",
+        element: (
+          <AdminRoute>
+            <AllUsers />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "manageCamps",
+        element: (
+          <AdminRoute>
+            <ManageCamp />
+          </AdminRoute>
+        ),
+      },
+    ],
   },
   {
     path: "/*",

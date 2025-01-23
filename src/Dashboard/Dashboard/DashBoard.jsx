@@ -26,13 +26,14 @@ const DashBoard = () => {
           menuOpen ? "block" : "hidden"
         } w-64 min-h-screen bg-gradient-to-br from-green-600 to-blue-700 text-white fixed top-0 left-0 shadow-lg md:block z-50`}
       >
-        <div className="p-6 border-b border-blue-300">
+        <div className="p-4 ">
           <h1 className="text-2xl font-bold text-center mb-2">
             MCMS
           </h1>
           <p className="text-sm text-center font-light">
             Medical Camp Management System
           </p>
+          <p className="divider divider-neutral"></p>
         </div>
 
         <ul className="menu p-4 font-medium text-sm">
@@ -88,6 +89,19 @@ const DashBoard = () => {
                 >
                   <FaClipboardList className="text-base" />
                   Manage Registered Camps
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/allUsers"
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 p-3 rounded-lg transition ${
+                      isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
+                    }`
+                  }
+                >
+                  <FaClipboardList className="text-base" />
+                  All Users
                 </NavLink>
               </li>
             </>
@@ -149,7 +163,8 @@ const DashBoard = () => {
           )}
 
           {/* Shared Links */}
-          <div className="border-t border-blue-300 my-4"></div>
+          <div className=" my-4"></div>
+          <p className="divider divider-neutral"></p>
           <li>
             <NavLink
               to="/"
