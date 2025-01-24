@@ -113,9 +113,7 @@ const RegisteredCamps = () => {
                     >
                       <FaDollarSign className="mr-2" /> Pay
                     </button>
-                    // <Link to='/dashboard/payment'>
-
-                    // </Link>
+                    
                   )}
                 </td>
                 {/* isconfirmed row */}

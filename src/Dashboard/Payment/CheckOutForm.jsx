@@ -14,7 +14,7 @@ const CheckOutForm = ({ camp }) => {
   const { user } = useAuth();
 
   const fees = camp?.campFees ? parseFloat(camp.campFees) : 0;
-//   console.log(camp._id)
+  //   console.log(camp._id)
 
   // Fetch client secret
   useEffect(() => {
@@ -84,13 +84,17 @@ const CheckOutForm = ({ camp }) => {
         //email: user.email,
         //price: fees,
         date: new Date(),
-        transactionId : paymentIntent.id,
+        transactionId: paymentIntent.id,
         // campId : camp.campId,
-        confirmationStatus: 'Pending',
-        paymentStatus: 'Paid',
-      }
-      const res = await axiosSecure.patch(`/join-camp/${camp._id}`, paymentData);
-      console.log('payment updated',res.data)
+        feedback: true,
+        confirmationStatus: "Pending",
+        paymentStatus: "Paid",
+      };
+      const res = await axiosSecure.patch(
+        `/join-camp/${camp._id}`,
+        paymentData
+      );
+    //   console.log("payment updated", res.data);
 
       Swal.fire({
         title: "Payment Successful!",

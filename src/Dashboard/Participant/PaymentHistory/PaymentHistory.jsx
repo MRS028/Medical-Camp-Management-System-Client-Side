@@ -30,7 +30,10 @@ const PaymentHistory = () => {
           heading={"Payment History"}
           subHeading={"Great people Never Die"}
         ></SectionTitle>
-        <div className="mb-6 pt-5 flex justify-center">
+        
+        {/* <h1 className="text-3xl font-bold ">Payment History</h1> */}
+      </div>
+      <div className="mb-6 pt-5 flex justify-center">
           {/* <label className="label font-semibold ">Search</label> */}
           <input
             type="text"
@@ -40,8 +43,6 @@ const PaymentHistory = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        {/* <h1 className="text-3xl font-bold ">Payment History</h1> */}
-      </div>
 
       <div className="bg-white shadow-lg rounded-lg p-6">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
@@ -54,7 +55,8 @@ const PaymentHistory = () => {
               <tr className="bg-gray-800 text-white">
                 <th className="px-6 py-3 text-left">#</th>
                 <th className="px-6 py-3 text-left">Camp Name</th>
-                <th className="px-6 py-3 text-left">Fees ($)</th>
+                <th className="px-6 py-3 text-left">Payment Date</th>
+                <th className="px-6 py-3 text-left">Fees </th>
                 <th className="px-6 py-3 text-left">Payment Status</th>
                 <th className="px-6 py-3 text-left">Confirmation Status</th>
               </tr>
@@ -67,6 +69,7 @@ const PaymentHistory = () => {
                 >
                   <td className="px-6 py-4 font-semibold">{index + 1}</td>
                   <td className="px-6 py-4">{payment.campName}</td>
+                  <td className="px-6 py-4">{payment.transactionId}</td>
                   <td className="px-6 py-4">${payment.campFees}</td>
                   <td className="px-6 py-4">
                     {payment.paymentStatus === "Paid" ? (

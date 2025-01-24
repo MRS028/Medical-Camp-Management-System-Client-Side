@@ -30,7 +30,7 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
       participantName: loggedInUser.displayName,
       participantEmail: loggedInUser.email,
       confirmationStatus: "Pending",
-      feedback: true,
+      feedback: false,
       paymentStatus: "Unpaid",
       date: ''
     };

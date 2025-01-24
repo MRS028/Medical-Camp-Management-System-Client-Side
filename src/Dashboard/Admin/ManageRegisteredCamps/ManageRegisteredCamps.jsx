@@ -11,6 +11,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import LoadingPage from "../../../Pages/Loading/LoadingPage";
 import useScrollToTop from "../../../Hooks/useScrollToTop";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
+import Swal from "sweetalert2";
 
 const ManageRegisteredCamps = () => {
   const axiosSecure = useAxiosSecure();
@@ -29,21 +30,79 @@ const ManageRegisteredCamps = () => {
       return res.data;
     },
   });
+  const handleCancel = async (id) => {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to cancel this camp?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, cancel it!",
+      cancelButtonText: "No, keep it",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const canceledData = {
+          confirmationStatus: "Canceled",
+        };
+        const res = await axiosSecure.patch(
+          `/confirmedCamp/${id}`,
+          canceledData
+        );
+        refetch();
+        if (res?.data?.modifiedCount > 0) {
+          // console.log("Confirmed", res.data);
+          Swal.fire({
+            icon: "error",
+            title: "Canceled",
+            text: "The camp has been successfully canceled.",
+            timer: 2000,
+            showConfirmButton: true,
+          });
+        }
+      }
+    });
+  };
+
+  const handleConfirm = async (id) => {
+    console.log(id);
+    const confirmData = {
+      confirmationStatus: "Confirmed",
+    };
+    const res = await axiosSecure.patch(`/confirmedCamp/${id}`, confirmData);
+    refetch();
+    if (res?.data?.modifiedCount > 0) {
+      console.log("payment updated", res.data);
+      Swal.fire({
+        icon: "success",
+        title: "Status Updated",
+        text: "Joining Camp Confirmed",
+        timer: 2000,
+        showConfirmButton: true,
+      });
+    }
+  };
   if (isLoading) {
     return <LoadingPage></LoadingPage>;
   }
 
   // Filter camps based on the search term
-  const filteredCamps = camps.filter(
-    (camp) =>
-      camp.campName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      camp.participantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      camp.campFees.toString().includes(searchTerm)
-  );
+  const filteredCamps = camps
+    .filter(
+      (camp) =>
+        camp.campName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        camp.participantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        camp.campFees.toString().includes(searchTerm)
+    )
+    .reverse();
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-300 min-h-screen">
-      <SectionTitle heading={"Join Camp Request"} subHeading={"Register to get Efficient Services"}></SectionTitle>
+      <SectionTitle
+        heading={"Join Camp Request"}
+        subHeading={"Register to get Efficient Services"}
+      ></SectionTitle>
       {/* <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
         Registered Camps
       </h1> */}
@@ -66,9 +125,11 @@ const ManageRegisteredCamps = () => {
               <th className="px-6 py-3 text-center">#</th>
               <th className="px-6 py-3 text-center">Camp Name</th>
               <th className="px-6 py-3 text-center">Camp Fees</th>
-              <th className="px-6 py-3 text-center">Confirmation Status</th>
               <th className="px-6 py-3 text-center">Participant Name</th>
+
               <th className="px-6 py-3 text-center">Payment Status</th>
+              <th className="px-6 py-3 text-center">Confirmation Status</th>
+              <th className="px-6 py-3 text-center">Confirmed Button</th>
               <th className="px-6 py-3 text-center">
                 Cancel <br /> Status
               </th>
@@ -107,23 +168,46 @@ const ManageRegisteredCamps = () => {
                     <span className="flex items-center justify-center text-green-500 font-medium">
                       <FaCheckCircle className="mr-2" /> Confirmed
                     </span>
+                  ) : camp.confirmationStatus === "Canceled" ? (
+                    <span className="flex items-center justify-center text-red-500 font-medium">
+                      <FaTimesCircle className="mr-2" /> Canceled
+                    </span>
                   ) : (
                     <span className="flex items-center justify-center text-yellow-500 font-medium">
                       <FaExclamationCircle className="mr-2" /> Pending
                     </span>
                   )}
                 </td>
+
                 <td className="px-6 py-4  gap-4">
                   <button
+                    onClick={(id) => handleConfirm(camp._id)}
                     className={`${
-                      camp.paymentStatus === "Paid"
+                      camp.paymentStatus === "Unpaid" ||
+                      camp.confirmationStatus === "Confirmed"
+                        ? "bg-gray-400 text-white cursor-not-allowed"
+                        : "bg-gradient-to-r from-teal-500 to-green-400 text-white"
+                    } px-4 py-2 rounded flex items-center`}
+                    disabled={
+                      camp.paymentStatus === "Unpaid" ||
+                      camp.confirmationStatus === "Confirmed"
+                    }
+                    data-tooltip-id="confirm-tooltip"
+                    data-tooltip-content="Make Confirm"
+                  >
+                    <FaCheckCircle className="mr-2" /> Confirm
+                  </button>
+                </td>
+                <td className="px-6 py-4  gap-4">
+                  <button
+                    onClick={() => handleCancel(camp._id)}
+                    className={`${ 
+                      camp.confirmationStatus === "Canceled" ||
+                      camp.confirmationStatus === "Confirmed"
                         ? "bg-gray-400 text-white cursor-not-allowed"
                         : "bg-red-500 text-white hover:bg-red-600"
                     } px-4 py-2 rounded flex items-center`}
-                    disabled={
-                      camp.paymentStatus === "Paid" ||
-                      camp.confirmationStatus === "Confirmed"
-                    }
+                    disabled={camp.confirmationStatus === "Confirmed"}
                     data-tooltip-id="cancel-tooltip"
                     data-tooltip-content="Cancel registration"
                   >
@@ -159,6 +243,7 @@ const ManageRegisteredCamps = () => {
       <Tooltip id="payment-tooltip" />
       <Tooltip id="cancel-tooltip" />
       <Tooltip id="feedback-tooltip" />
+      <Tooltip id="confirm-tooltip" />
     </div>
   );
 };
