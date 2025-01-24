@@ -8,9 +8,9 @@ import LoadingPage from "../../Pages/Loading/LoadingPage";
 import useScrollToTop from "../../Hooks/useScrollToTop";
 
 const AllUsers = () => {
-  const [users,loading] = useUsers();
+  const [users, loading] = useUsers();
   useScrollToTop();
-   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleUpdate = (id) => {
     console.log("Update user with ID:", id);
@@ -18,20 +18,22 @@ const AllUsers = () => {
   };
 
   const handleDelete = (id) => {
-    console.log(id)
+    console.log(id);
     // setUsers(users.filter((user) => user.id !== id));
   };
 
   const handleToggleAdmin = (id) => {
-    console.log(id)
+    console.log(id);
   };
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) 
-  );
-  if(loading){
-    return <LoadingPage></LoadingPage>
+  const filteredUsers = users
+    .filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .reverse();
+  if (loading) {
+    return <LoadingPage></LoadingPage>;
   }
 
   return (
@@ -40,7 +42,7 @@ const AllUsers = () => {
         heading={"All Users"}
         subHeading={"Unity is Strength"}
       ></SectionTitle>
-       <div className="mb-6 pt-6 flex justify-center">
+      <div className="mb-6 pt-6 flex justify-center">
         <input
           type="text"
           placeholder="Search by camp name..."

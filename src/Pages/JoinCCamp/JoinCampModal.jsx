@@ -32,6 +32,7 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
       confirmationStatus: "Pending",
       feedback: true,
       paymentStatus: "Unpaid",
+      date: ''
     };
 
     // Show confirmation modal using SweetAlert2

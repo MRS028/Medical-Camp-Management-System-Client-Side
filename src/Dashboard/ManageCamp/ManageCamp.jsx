@@ -77,7 +77,7 @@ const ManageCamp = () => {
       camp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       camp.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
       camp.campFees.toString().includes(searchTerm)
-  );
+  ).reverse(); 
 
 
   return (

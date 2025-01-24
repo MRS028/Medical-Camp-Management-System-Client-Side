@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaCheckCircle,
   FaExclamationCircle,
@@ -10,7 +10,16 @@ import useScrollToTop from "../../../Hooks/useScrollToTop";
 
 const PaymentHistory = () => {
   const [joinedcamps, loading, refetch] = useJoinedCamps();
+  const [searchTerm, setSearchTerm] = useState("");
   useScrollToTop();
+  const filteredCamps = joinedcamps
+    .filter(
+      (camp) =>
+        camp.campName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        camp.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        camp.campFees.toString().includes(searchTerm)
+    )
+    .reverse();
 
   return (
     <div className="p-6 bg-gradient-to-r min-h-screen">
@@ -21,6 +30,16 @@ const PaymentHistory = () => {
           heading={"Payment History"}
           subHeading={"Great people Never Die"}
         ></SectionTitle>
+        <div className="mb-6 pt-5 flex justify-center">
+          {/* <label className="label font-semibold ">Search</label> */}
+          <input
+            type="text"
+            placeholder="Search by camp name..."
+            className="px-4 py-2 w-1/2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-teal-700"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         {/* <h1 className="text-3xl font-bold ">Payment History</h1> */}
       </div>
 
@@ -41,7 +60,7 @@ const PaymentHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {joinedcamps.map((payment, index) => (
+              {filteredCamps.map((payment, index) => (
                 <tr
                   key={payment._id}
                   className="text-gray-700 border-t hover:bg-gray-100 transition-all duration-200"

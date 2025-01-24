@@ -113,7 +113,7 @@ const ParticipantProfile = () => {
       {currentUser?.role !== "admin" ? (
         <>
           {" "}
-          <div className="max-w-2xl mx-auto mt-4 p-6 bg-white shadow-md rounded-md">
+          <div className="max-w-2xl mx-auto mt-16 p-6 bg-white shadow-md rounded-md">
             <SectionTitle
               heading={"my profile"}
               subHeading={"Enjoy Your Day"}
