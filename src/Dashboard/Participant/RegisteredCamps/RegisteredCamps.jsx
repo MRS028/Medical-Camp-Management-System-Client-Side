@@ -1,6 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../../Hooks/useAuth";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import LoadingPage from "../../../Pages/Loading/LoadingPage";
 import {
   FaCheckCircle,
@@ -11,13 +9,21 @@ import {
 import { Tooltip } from "react-tooltip";
 import { useState } from "react";
 import useJoinedCamps from "../../../Hooks/useJoinedCamps";
+import useScrollToTop from "../../../Hooks/useScrollToTop";
+import { Link, useNavigate } from "react-router-dom";
+import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 
 const RegisteredCamps = () => {
-  const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  useScrollToTop();
+  const navigate = useNavigate();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [JoinedCamps, isError, loading] = useJoinedCamps();
   //   console.log(JoinedCamps)
+
+  const handlePayment = (camp) => {
+    navigate("/dashboard/payment", { state: { camp } });
+  };
 
   if (loading) {
     return <LoadingPage />;
@@ -35,16 +41,18 @@ const RegisteredCamps = () => {
     (camp) =>
       camp.campName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       camp.campFees.toString().includes(searchTerm)
-  );
+  ).reverse(); 
+  
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-300 min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-        Registered Camps
-      </h1>
+      <SectionTitle
+        heading={"Registered Camps"}
+        subHeading={"Pay to Confirm your Journey With Us"}
+      ></SectionTitle>
 
       {/* Search or Filter */}
-      <div className="mb-6 flex justify-center">
+      <div className="mb-6 pt-6 flex justify-center">
         <input
           type="text"
           placeholder="Search by camp name..."
@@ -98,12 +106,16 @@ const RegisteredCamps = () => {
                     </span>
                   ) : (
                     <button
+                      onClick={() => handlePayment(camp)}
                       className="bg-gradient-to-r from-teal-500 to-green-400 text-white px-4 py-2 rounded  flex items-center justify-center"
                       data-tooltip-id="payment-tooltip"
                       data-tooltip-content="Complete your payment"
                     >
                       <FaDollarSign className="mr-2" /> Pay
                     </button>
+                    // <Link to='/dashboard/payment'>
+
+                    // </Link>
                   )}
                 </td>
                 {/* isconfirmed row */}

@@ -5,9 +5,12 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import SectionTitle from "../../Components/SectionTitle/SectionTitle";
 import useUsers from "../../Hooks/useUsers";
 import LoadingPage from "../../Pages/Loading/LoadingPage";
+import useScrollToTop from "../../Hooks/useScrollToTop";
 
 const AllUsers = () => {
   const [users,loading] = useUsers();
+  useScrollToTop();
+   const [searchTerm, setSearchTerm] = useState("");
 
   const handleUpdate = (id) => {
     console.log("Update user with ID:", id);
@@ -22,6 +25,11 @@ const AllUsers = () => {
   const handleToggleAdmin = (id) => {
     console.log(id)
   };
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) 
+  );
   if(loading){
     return <LoadingPage></LoadingPage>
   }
@@ -32,6 +40,15 @@ const AllUsers = () => {
         heading={"All Users"}
         subHeading={"Unity is Strength"}
       ></SectionTitle>
+       <div className="mb-6 pt-6 flex justify-center">
+        <input
+          type="text"
+          placeholder="Search by camp name..."
+          className="px-4 py-2 w-1/2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       <h1 className="text-3xl font-semibold mb-6 text-gray-700">
         Users {`(${users.length})`}{" "}
       </h1>
@@ -60,7 +77,7 @@ const AllUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {filteredUsers.map((user, index) => (
               <tr
                 key={user._id}
                 className={`${

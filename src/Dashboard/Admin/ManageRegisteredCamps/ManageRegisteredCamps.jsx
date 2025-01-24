@@ -1,4 +1,3 @@
-import { p } from "framer-motion/client";
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -10,10 +9,13 @@ import {
 import { Tooltip } from "react-tooltip";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import LoadingPage from "../../../Pages/Loading/LoadingPage";
+import useScrollToTop from "../../../Hooks/useScrollToTop";
+import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 
 const ManageRegisteredCamps = () => {
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
+  useScrollToTop();
   const {
     data: camps = [],
     isLoading,
@@ -41,9 +43,10 @@ const ManageRegisteredCamps = () => {
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-300 min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+      <SectionTitle heading={"Join Camp Request"} subHeading={"Register to get Efficient Services"}></SectionTitle>
+      {/* <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
         Registered Camps
-      </h1>
+      </h1> */}
 
       {/* Search or Filter */}
       <div className="mb-6 flex justify-center">

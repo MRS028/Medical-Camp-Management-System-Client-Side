@@ -9,15 +9,14 @@ import Swal from "sweetalert2";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { FaPhotoFilm } from "react-icons/fa6";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import useScrollToTop from "../../../Hooks/useScrollToTop";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { createUser, updateUserProfile } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
-  useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  useScrollToTop();
   //form-hook
   const {
     register,

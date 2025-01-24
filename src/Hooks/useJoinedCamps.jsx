@@ -17,7 +17,7 @@ const useJoinedCamps = () => {
     queryKey: ["joinedcamps"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/registeredCamps/${user.email}`);
-      console.log("API Response:", res.data);
+      // console.log("API Response:", res.data);
       return res.data;
     },
   });

@@ -3,11 +3,15 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import UpdateModal from "./UpdateModal";
+import useScrollToTop from "../../Hooks/useScrollToTop";
+import SectionTitle from "../../Components/SectionTitle/SectionTitle";
 
 const ManageCamp = () => {
   const [camps, setCamps] = useState([]);
   const [selectedCamp, setSelectedCamp] = useState(null);
   const axiosSecure = useAxiosSecure();
+  const [searchTerm, setSearchTerm] = useState("");
+  useScrollToTop();
 
   useEffect(() => {
     const fetchCamps = async () => {
@@ -68,41 +72,57 @@ const ManageCamp = () => {
       setSelectedCamp(null);
     }
   };
+  const filteredCamps = camps.filter(
+    (camp) =>
+      camp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      camp.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      camp.campFees.toString().includes(searchTerm)
+  );
+
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-md mt-6">
-      <h1 className="text-3xl font-bold text-center mb-6 text-blue-600">
-        Manage Camps
-      </h1>
+      <SectionTitle heading={"Manage Camps"} subHeading={"Good People knows the Good People"}></SectionTitle>
+      
+      <div className="mb-6 pt-5 flex justify-center">
+        {/* <label className="label font-semibold ">Search</label> */}
+        <input
+          type="text"
+          placeholder="Search by camp name..."
+          className="px-4 py-2 w-1/2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-teal-700"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-800 text-white">
             <tr>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+              <th className="px-6 py-3 text-left text-sm font-semibold ">
                 #
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+              <th className="px-6 py-3 text-left text-sm font-semibold ">
                 Image
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+              <th className="px-6 py-3 text-left text-sm font-semibold ">
                 Name
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+              <th className="px-6 py-3 text-left text-sm font-semibold ">
                 Location
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+              <th className="px-6 py-3 text-left text-sm font-semibold ">
                 Fees
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+              <th className="px-6 py-3 text-left text-sm font-semibold ">
                 Participent
               </th>
-              <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600">
+              <th className="px-6 py-3 text-center text-sm font-semibold ">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
-            {camps.map((camp, index) => (
+            {filteredCamps.map((camp, index) => (
               <tr
                 key={camp._id}
                 className={`${

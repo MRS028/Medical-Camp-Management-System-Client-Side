@@ -10,16 +10,14 @@ import { Link } from "react-router-dom";
 import useCamps from "../../Hooks/useCamps";
 import LoadingPage from "../Loading/LoadingPage";
 import { FaMapLocation, FaUserDoctor } from "react-icons/fa6";
+import useScrollToTop from "../../Hooks/useScrollToTop";
 
 const AvailableCamps = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [layout, setLayout] = useState(3);
   const [camps, loading] = useCamps();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
+  useScrollToTop();
   const filteredCamps = camps.filter((camp) => {
     return (
       camp.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

@@ -8,12 +8,11 @@ import LoadingPage from "../../../Pages/Loading/LoadingPage";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
-import { useNavigate } from "react-router-dom";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const ParticipantProfile = () => {
+const OrganizerProfile = () => {
   const { register, handleSubmit, reset } = useForm();
   const [isEditing, setIsEditing] = useState(false);
   const { user, updateUserProfile } = useAuth();
@@ -21,12 +20,11 @@ const ParticipantProfile = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (users.length > 0) {
       const matchedUser = users.find(
-        (participant) => participant.email === user.email
+        (organizer) => organizer.email === user.email
       );
       if (matchedUser) {
         setCurrentUser(matchedUser);
@@ -45,8 +43,7 @@ const ParticipantProfile = () => {
       });
       imageUrl = res.data?.data?.display_url;
     }
-    console.log(data.name, imageUrl);
-    updateUserProfile(data?.name,imageUrl )
+    updateUserProfile(data?.name, imageUrl)
       .then(() => {
         console.log("User updatetd in firebase");
       })
@@ -60,24 +57,19 @@ const ParticipantProfile = () => {
       photoURL: imageUrl || currentUser.photoURL,
     };
     saveProfile(updatedData);
-
-    // console.log(updatedData);
   };
 
   const saveProfile = async (updatedData) => {
-    console.log(updatedData);
-
     const res = await axiosSecure.patch(
       `/user/${currentUser._id}`,
       updatedData
     );
     if (!res?.data?.modifiedCount) {
       Swal.fire({
-        title: "You don't change anything yet!",
-        text: "If You want then make updates.",
+        title: "No changes detected!",
+        text: "Make updates to save your profile.",
         icon: "error",
-        timer: 20000,
-        cancelButtonColor: "#1bb1b1",
+        timer: 2000,
         showConfirmButton: true,
       });
     }
@@ -91,36 +83,28 @@ const ParticipantProfile = () => {
       setIsEditing(false);
       Swal.fire({
         title: "Updated!",
-        text: "Profile has been updated successfully.",
+        text: "Profile updated successfully.",
         icon: "success",
         timer: 1500,
-        cancelButtonColor: "#1bb1b1",
         showConfirmButton: true,
       });
     }
   };
-  //created time and last log in time
 
   if (loading) {
     return <LoadingPage />;
   }
-  if (currentUser?.role === "admin") {
-    return navigate("/");
-  }
 
   return (
     <>
-      {currentUser?.role !== "admin" ? (
+      {currentUser?.role === "admin" ? (
         <>
           {" "}
-          <div className="max-w-2xl mx-auto mt-4 p-6 bg-white shadow-md rounded-md">
+          <div className="max-w-2xl mx-auto mt-4  p-6 bg-white shadow-md rounded-md">
             <SectionTitle
-              heading={"my profile"}
-              subHeading={"Enjoy Your Day"}
-            ></SectionTitle>
-            {/* <h1 className="text-2xl font-bold text-center mb-6">
-          Participant Profile
-        </h1> */}
+              heading={"My Profile"}
+              subHeading={"Manage your details"}
+            />
             <div className="flex items-center justify-center mb-6">
               {currentUser && currentUser.photoURL ? (
                 <img
@@ -153,30 +137,16 @@ const ParticipantProfile = () => {
                   </p>
 
                   <p className="text-base text-gray-700 mb-1">
-                    <span className="font-medium">Created At: </span>
-                    <span className="text-gray-500">
-                      {user?.metadata?.creationTime || "No data available"}
-                    </span>
-                  </p>
-
-                  <p className="text-base text-gray-700 mb-1">
-                    <span className="font-medium">Last Login: </span>
-                    <span className="text-gray-500">
-                      {user?.metadata?.lastSignInTime || "No data available"}
-                    </span>
-                  </p>
-
-                  <p className="text-base text-gray-700 mb-1">
                     <span className="font-medium">Role: </span>
-                    <span className="text-gray-500 ">
-                      {currentUser?.role || "No data available"}
+                    <span className="text-gray-500">
+                      {currentUser?.role || "Organizer"}
                     </span>
                   </p>
                 </div>
 
                 <div className="mt-6 text-center">
                   <button
-                    className="bg-gradient-to-r font-semibold from-teal-500 to-green-400 text-white px-6 py-2 rounded-lg shadow-md 0 transition-colors duration-200"
+                    className="bg-gradient-to-r font-semibold from-teal-500 to-green-400 text-white px-6 py-2 rounded-lg shadow-md transition-colors duration-200"
                     onClick={() => setIsEditing(true)}
                   >
                     Update Profile
@@ -220,13 +190,13 @@ const ParticipantProfile = () => {
                   <input
                     type="file"
                     {...register("image")}
-                    className="file-input w-full  input-bordered focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="file-input w-full input-bordered focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
                 <div className="flex justify-end space-x-4">
                   <button
                     type="button"
-                    className="bg-red-600 text-white font-semibold  px-4 py-2 rounded-lg hover:bg-red-800"
+                    className="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-800"
                     onClick={() => setIsEditing(false)}
                   >
                     Cancel
@@ -240,7 +210,7 @@ const ParticipantProfile = () => {
                 </div>
               </form>
             )}
-          </div>
+          </div>{" "}
         </>
       ) : (
         <> </>
@@ -249,4 +219,4 @@ const ParticipantProfile = () => {
   );
 };
 
-export default ParticipantProfile;
+export default OrganizerProfile;

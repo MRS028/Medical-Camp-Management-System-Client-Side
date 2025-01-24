@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { FcAbout } from "react-icons/fc";
 import JoinCampModal from "../JoinCCamp/JoinCampModal";
+import useScrollToTop from "../../Hooks/useScrollToTop";
 
 const CampDetails = () => {
   const CampId = useParams();
@@ -19,10 +20,7 @@ const CampDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const axiosPublic = useAxiosPublic();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
+  useScrollToTop();
   const id = CampId.id;
 
   useEffect(() => {

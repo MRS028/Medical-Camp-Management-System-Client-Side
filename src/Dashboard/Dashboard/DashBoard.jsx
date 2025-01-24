@@ -24,7 +24,7 @@ const DashBoard = () => {
       <div
         className={`${
           menuOpen ? "block" : "hidden"
-        } w-64 min-h-screen bg-gradient-to-br from-green-600 to-blue-700 text-white fixed top-0 left-0 shadow-lg md:block z-50`}
+        } w-64 min-h-screen bg-gradient-to-br from-teal-500 to-green-400  text-white fixed top-0 left-0 shadow-lg md:block z-50`}
       >
         <div className="p-4 ">
           <h1 className="text-2xl font-bold text-center mb-2">
@@ -41,7 +41,7 @@ const DashBoard = () => {
             <>
               <li>
                 <NavLink
-                  to="/dashboard/adminHome"
+                  to="/dashboard/organizerProfile"
                   className={({ isActive }) =>
                     `flex items-center gap-3 p-3 rounded-lg transition ${
                       isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"

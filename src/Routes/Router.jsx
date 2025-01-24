@@ -18,6 +18,9 @@ import RegisteredCamps from "../Dashboard/Participant/RegisteredCamps/Registered
 import ManageRegisteredCamps from "../Dashboard/Admin/ManageRegisteredCamps/ManageRegisteredCamps";
 import Analytics from "../Dashboard/Participant/Analytic/Analytics";
 import PaymentHistory from "../Dashboard/Participant/PaymentHistory/PaymentHistory";
+import DashBoardSideBar from "../Dashboard/Dashboard/DashBoardSideBar";
+import OrganizerProfile from "../Dashboard/Admin/OrganizerProfile/OrganizerProfile";
+import Payment from "../Dashboard/Payment/Payment";
 
 const Router = createBrowserRouter([
   {
@@ -93,42 +96,42 @@ const Router = createBrowserRouter([
         path: "manageRegisteredCamps",
         element: (
           <AdminRoute>
-            <ManageRegisteredCamps/>
+            <ManageRegisteredCamps />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "organizerProfile",
+        element: (
+          <AdminRoute>
+            <OrganizerProfile />
           </AdminRoute>
         ),
       },
       //participant routes
       {
+        path: "dashBoardSideBar",
+        element: <DashBoardSideBar />,
+      },
+      {
         path: "profile",
-        element: (
-          <PrivateRoute>
-            <ParticipantProfile />
-          </PrivateRoute>
-        ),
+        element: <ParticipantProfile />,
       },
       {
         path: "registeredCamps",
-        element: (
-          <PrivateRoute>
-            <RegisteredCamps />
-          </PrivateRoute>
-        ),
+        element: <RegisteredCamps />,
       },
       {
         path: "analytics",
-        element: (
-          <PrivateRoute>
-            <Analytics/>
-          </PrivateRoute>
-        ),
+        element: <Analytics />,
+      },
+      {
+        path: "payment",
+        element: <Payment />,
       },
       {
         path: "paymentHistory",
-        element: (
-          <PrivateRoute>
-            <PaymentHistory/>
-          </PrivateRoute>
-        ),
+        element: <PaymentHistory />,
       },
     ],
   },

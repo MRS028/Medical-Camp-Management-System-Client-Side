@@ -76,9 +76,9 @@ const NavBar = () => {
           Doctors
         </NavLink>
       </li>
-      <li>
+      {user && user.email ? <li>
         <NavLink
-          to="/dashboard"
+          to="/dashboard/dashBoardSideBar"
           className={({ isActive }) =>
             isActive
               ? "text-white font-semibold border-b"
@@ -88,7 +88,7 @@ const NavBar = () => {
         >
           Dashboard
         </NavLink>
-      </li>
+      </li> : <> </>}
     </>
   );
 

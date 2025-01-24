@@ -3,11 +3,14 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const JoinCampModal = ({ camp, onClose, onRegister }) => {
   const { user } = useAuth();
   const loggedInUser = user;
   const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
+  // console.log(camp._id)
 
   const {
     register,
@@ -18,27 +21,69 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
   const onSubmit = (data) => {
     const registrationData = {
       ...data,
+      campId: camp._id,
       campName: camp.name,
+      transactionId: "",
       campFees: camp.campFees,
       location: camp.location,
       professional: camp.professional,
       participantName: loggedInUser.displayName,
       participantEmail: loggedInUser.email,
+      confirmationStatus: "Pending",
+      feedback: true,
+      paymentStatus: "Unpaid",
     };
-    onRegister(registrationData);
-    console.log("Registration Data:", registrationData);
-    axiosPublic
-      .post("/join-camps",registrationData )
-      .then((res) => {
-        console.log(res.data);
-        Swal.fire({
-          icon: "success",
-          title: "Redirect to the payment page",
-          showConfirmButton: true,
-          timer: 1500,
-        });
-      })
-      .catch((err) => console.log(err));
+
+    // Show confirmation modal using SweetAlert2
+    Swal.fire({
+      title: "Confirm Registration",
+      html: `
+        <div class="text-left">
+          <p><strong>Camp Name:</strong> ${registrationData.campName}</p>
+          <p><strong>Camp Fees:</strong> ${registrationData.campFees}</p>
+          <p><strong>Location:</strong> ${registrationData.location}</p>
+          <p><strong>Healthcare Professional:</strong> ${registrationData.professional}</p>
+          <p><strong>Your Name:</strong> ${registrationData.participantName}</p>
+          <p><strong>Your Email:</strong> ${registrationData.participantEmail}</p>
+          <p><strong>Age:</strong> ${registrationData.age}</p>
+          <p><strong>Phone:</strong> ${registrationData.phone}</p>
+          <p><strong>Gender:</strong> ${registrationData.gender}</p>
+          <p><strong>Emergency Contact:</strong> ${registrationData.emergencyContact}</p>
+        </div>
+      `,
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Back",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // If user confirms, send the data to the server
+        axiosPublic
+          .post("/join-camps", registrationData)
+          .then((res) => {
+            console.log(res.data);
+            Swal.fire({
+              icon: "success",
+              title: "Registration Successful!",
+              text: "You will be redirected to the payment page.",
+              showConfirmButton: true,
+              timer: 1500,
+            });
+            onRegister(registrationData);
+            navigate("/dashboard/registeredCamps");
+          })
+          .catch((err) => {
+            console.error(err);
+            Swal.fire({
+              icon: "error",
+              title: "Registration Failed",
+              text: "Something went wrong. Please try again later.",
+            });
+          });
+      } else {
+        console.log("User chose to edit the form.");
+      }
+    });
   };
 
   return (
@@ -176,10 +221,17 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
 
           {/* Actions */}
           <div className="form-actions flex justify-end space-x-2">
-            <button type="button" className="btn btn-ghost bg-red-600 text-white hover:bg-red-800" onClick={onClose}>
+            <button
+              type="button"
+              className="btn btn-ghost bg-red-600 text-white hover:bg-red-800"
+              onClick={onClose}
+            >
               Cancel
             </button>
-            <button type="submit" className="btn text-white  bg-gradient-to-r from-teal-500 to-green-400">
+            <button
+              type="submit"
+              className="btn text-white  bg-gradient-to-r from-teal-500 to-green-400"
+            >
               Register
             </button>
           </div>

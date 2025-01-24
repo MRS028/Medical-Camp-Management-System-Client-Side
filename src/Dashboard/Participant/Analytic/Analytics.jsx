@@ -11,15 +11,17 @@ import {
 import { FaChartBar } from "react-icons/fa";
 import useJoinedCamps from "../../../Hooks/useJoinedCamps";
 import LoadingPage from "../../../Pages/Loading/LoadingPage";
+import useScrollToTop from "../../../Hooks/useScrollToTop";
 
 const Analytics = () => {
   const [JoinedCamps, loading, isError] = useJoinedCamps();
+  useScrollToTop();
 
   // Prepare data for the chart by mapping JoinedCamps
   const chartData = JoinedCamps.map((camp) => ({
-    campName: camp.campName || "Unknown Camp", 
-    campFees: camp.campFees || 0, 
-    participants: camp.participants || 1, 
+    campName: camp.campName || "Unknown Camp",
+    campFees: camp.campFees || 0,
+    participants: camp.participants || 1,
   }));
 
   return (
@@ -27,6 +29,15 @@ const Analytics = () => {
       <div className="flex justify-center items-center gap-3 mb-8">
         <FaChartBar className="text-blue-600 text-4xl" />
         <h1 className="text-3xl font-bold text-gray-800">Analytics</h1>
+      </div>
+      <div>
+        {JoinedCamps.length === 0 ? (
+          <div className="text-center m-6 text-red-600">
+            No registered camps found for this user.
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
 
       {loading ? (
