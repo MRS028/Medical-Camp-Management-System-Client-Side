@@ -67,11 +67,11 @@ const RegisteredCamps = () => {
           <thead>
             <tr className="bg-gray-800 text-white">
               <th className="px-6 py-3 text-left">#</th>
-              <th className="px-6 py-3 text-left">Camp Name</th>
-              <th className="px-6 py-3 text-left">Camp Fees</th>
-              <th className="px-6 py-3 text-left">Participant Name</th>
-              <th className="px-6 py-3 text-left">Payment Status</th>
-              <th className="px-6 py-3 text-left">Confirmation Status</th>
+              <th className="px-6 py-3 text-center">Camp Name</th>
+              <th className="px-6 py-3 text-center">Camp Fees</th>
+              <th className="px-6 py-3 text-center">Participant Name</th>
+              <th className="px-6 py-3 text-center">Payment Status</th>
+              <th className="px-6 py-3 text-center">Confirmation Status</th>
               <th className="px-6 py-3 text-center">
                 Cancel <br />
                 Status

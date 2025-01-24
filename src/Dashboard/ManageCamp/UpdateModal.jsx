@@ -6,8 +6,9 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const UpdateModal = ({ camp, onUpdate, onClose }) => {
-    const axiosPublic = useAxiosPublic()
+const UpdateModal = ({camp,  onUpdate, onClose }) => {
+  const axiosPublic = useAxiosPublic();
+  console.log(camp)
   const {
     register,
     handleSubmit,
@@ -52,7 +53,7 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
         <h2 className="text-2xl font-bold mb-4 text-center">Update Camp</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-          <label className="block font-semibold mb-1">Camp Name</label>
+            <label className="block font-semibold mb-1">Camp Name</label>
             <input
               type="text"
               {...register("name", { required: "Camp name is required" })}
@@ -60,12 +61,14 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
               placeholder="Enter camp name"
             />
             {errors.name && (
-              <span className="text-red-500 text-sm">{errors.name.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.name.message}
+              </span>
             )}
           </div>
 
           <div>
-          <label className="block font-semibold mb-1">Image</label>
+            <label className="block font-semibold mb-1">Image</label>
             <input
               type="file"
               {...register("image")}
@@ -74,19 +77,23 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
           </div>
 
           <div>
-          <label className="block font-semibold mb-1">Date and Time</label>
+            <label className="block font-semibold mb-1">Date and Time</label>
             <input
               type="datetime-local"
-              {...register("dateTime", { required: "Date and time are required" })}
+              {...register("dateTime", {
+                required: "Date and time are required",
+              })}
               className="w-full border p-2 rounded"
             />
             {errors.dateTime && (
-              <span className="text-red-500 text-sm">{errors.dateTime.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.dateTime.message}
+              </span>
             )}
           </div>
 
           <div>
-          <label className="block font-semibold mb-1">Location</label>
+            <label className="block font-semibold mb-1">Location</label>
             <input
               type="text"
               {...register("location", { required: "Location is required" })}
@@ -94,15 +101,21 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
               placeholder="Enter location"
             />
             {errors.location && (
-              <span className="text-red-500 text-sm">{errors.location.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.location.message}
+              </span>
             )}
           </div>
 
           <div>
-          <label className="block font-semibold mb-1">Professional's Name</label>
+            <label className="block font-semibold mb-1">
+              Professional's Name
+            </label>
             <input
               type="text"
-              {...register("professional", { required: "Professional's name is required" })}
+              {...register("professional", {
+                required: "Professional's name is required",
+              })}
               className="w-full border p-2 rounded"
               placeholder="Enter professional's name"
             />
@@ -114,10 +127,14 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
           </div>
 
           <div>
-          <label className="block font-semibold mb-1">Participent Count</label>
+            <label className="block font-semibold mb-1">
+              Participent Count
+            </label>
             <input
               type="number"
-              {...register("participants", { required: "Participant count is required" })}
+              {...register("participants", {
+                required: "Participant count is required",
+              })}
               className="w-full border p-2 rounded"
               placeholder="Enter participant count"
             />
@@ -129,7 +146,7 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
           </div>
 
           <div>
-          <label className="block font-semibold mb-1">Fees</label>
+            <label className="block font-semibold mb-1">Fees</label>
             <input
               type="number"
               step="0.01"
@@ -138,12 +155,14 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
               placeholder="Enter fees"
             />
             {errors.fees && (
-              <span className="text-red-500 text-sm">{errors.fees.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.fees.message}
+              </span>
             )}
           </div>
 
           <div>
-          <label className="block font-semibold mb-1">Description</label>
+            <label className="block font-semibold mb-1">Description</label>
             <textarea
               {...register("description", {
                 required: "Description is required",

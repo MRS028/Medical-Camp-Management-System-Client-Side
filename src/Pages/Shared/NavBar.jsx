@@ -3,14 +3,25 @@ import { FaBars, FaTimes, FaFirstAid } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import useUsers from "../../Hooks/useUsers";
+import LoadingPage from "../Loading/LoadingPage";
 
 const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, logOut } = useAuth();
+  const [users, loading] = useUsers();
+  const adminUsers = users.filter((user) => user.role === "admin");
+
+  console.log(adminUsers);
+
+  if (loading) {
+    return <LoadingPage></LoadingPage>;
+  }
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
   const handleLogOut = () => {
     Swal.fire({
       title: "Are you sure to Log Out?",
@@ -76,19 +87,27 @@ const NavBar = () => {
           Doctors
         </NavLink>
       </li>
-      {user && user.email ? <li>
-        <NavLink
-          to="/dashboard/dashBoardSideBar"
-          className={({ isActive }) =>
-            isActive
-              ? "text-white font-semibold border-b"
-              : "text-gray-800 hover:text-white hover:border-b-2 hover:border-white"
-          }
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Dashboard
-        </NavLink>
-      </li> : <> </>}
+      {user && user.email ? (
+        <li>
+          <NavLink
+           to={`${
+            users.some((u) => u.email === user.email && u.role === "admin")
+              ? "/dashboard/adminHome"
+              : "/dashboard/userHome"
+          }`}
+            className={({ isActive }) =>
+              isActive
+                ? "text-white font-semibold border-b"
+                : "text-gray-800 hover:text-white hover:border-b-2 hover:border-white"
+            }
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Dashboard
+          </NavLink>
+        </li>
+      ) : (
+        <> </>
+      )}
     </>
   );
 
@@ -115,9 +134,9 @@ const NavBar = () => {
                 data-tip={user?.email || "Anonymous User"}
               >
                 <img
-                  className="inline-block w-10  h-10 rounded-full cursor-pointer"
+                  className="inline-block w-10  h-10 rounded-full border cursor-pointer"
                   src={user?.photoURL || "userPhoto"}
-                  alt="User Avatar"
+                  alt=""
                 />
               </div>
 

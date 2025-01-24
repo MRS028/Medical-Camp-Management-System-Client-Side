@@ -35,6 +35,14 @@ const ParticipantProfile = () => {
   }, [users, user.email]);
 
   const handleUpdate = async (data) => {
+    Swal.fire({
+      title: "Loading...",
+      text: "Please wait while we process your request.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading(); 
+      },
+    });
     let imageUrl = currentUser?.image || null;
 
     if (data.image && data.image[0]) {
@@ -60,6 +68,15 @@ const ParticipantProfile = () => {
       photoURL: imageUrl || currentUser.photoURL,
     };
     saveProfile(updatedData);
+    Swal.fire({
+      title: "Loading...",
+      text: "Please wait while we process your request.",
+      allowOutsideClick: false, // বাইরে ক্লিক করলে বন্ধ হবে না
+      didOpen: () => {
+        Swal.showLoading(); // লোডিং আইকন দেখাবে
+      },
+    });
+    Swal.close();
 
     // console.log(updatedData);
   };
@@ -71,6 +88,7 @@ const ParticipantProfile = () => {
       `/user/${currentUser._id}`,
       updatedData
     );
+    
     if (!res?.data?.modifiedCount) {
       Swal.fire({
         title: "You don't change anything yet!",
@@ -81,6 +99,7 @@ const ParticipantProfile = () => {
         showConfirmButton: true,
       });
     }
+
     if (res.data.modifiedCount > 0) {
       setCurrentUser(
         users.map((user) =>
@@ -88,6 +107,7 @@ const ParticipantProfile = () => {
         )
       );
       refetch();
+      Swal.close();
       setIsEditing(false);
       Swal.fire({
         title: "Updated!",

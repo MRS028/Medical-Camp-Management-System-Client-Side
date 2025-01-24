@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2"; // Import SweetAlert
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const CheckOutForm = ({ camp }) => {
   const stripe = useStripe();
@@ -12,6 +13,7 @@ const CheckOutForm = ({ camp }) => {
   const axiosSecure = useAxiosSecure();
   const [clientSecret, setClientSecret] = useState("");
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const fees = camp?.campFees ? parseFloat(camp.campFees) : 0;
   //   console.log(camp._id)
@@ -79,6 +81,7 @@ const CheckOutForm = ({ camp }) => {
     if (paymentIntent?.status === "succeeded") {
       setError("");
       setIsProcessing(false);
+      
       //sending data to mongodb
       const paymentData = {
         //email: user.email,
@@ -94,6 +97,7 @@ const CheckOutForm = ({ camp }) => {
         `/join-camp/${camp._id}`,
         paymentData
       );
+      navigate('/dashboard/paymentHistory')
     //   console.log("payment updated", res.data);
 
       Swal.fire({
@@ -146,75 +150,89 @@ const CheckOutForm = ({ camp }) => {
 
   return (
     <form
-      onSubmit={handleSubmit}
-      className="space-y-6 bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto"
-    >
-      <h2 className="text-xl font-semibold text-gray-800 text-center">
-        Complete Your Payment
-      </h2>
-      <p className="text-sm text-gray-500 text-center">
-        Please enter your card details below to proceed.
-      </p>
+  onSubmit={handleSubmit}
+  className="space-y-6 bg-white p-8 rounded-lg shadow-2xl max-w-lg mx-auto border-t-4 border-teal-500"
+>
+  <h2 className="text-2xl font-bold text-gray-800 text-center">
+    Complete Your Payment
+  </h2>
+  <p className="text-sm text-gray-500 text-center">
+    Enter your card details securely to proceed with the payment.
+  </p>
 
-      <div className="p-4 border rounded-md bg-gray-50">
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: "16px",
-                color: "#424770",
-                fontFamily: "Arial, sans-serif",
-                "::placeholder": {
-                  color: "#aab7c4",
-                },
-              },
-              invalid: {
-                color: "#9e2146",
-              },
+  <div className="p-4 border rounded-lg bg-gray-50 shadow-sm focus-within:shadow-md">
+    <CardElement
+      options={{
+        style: {
+          base: {
+            fontSize: "16px",
+            color: "#424770",
+            fontFamily: "Arial, sans-serif",
+            "::placeholder": {
+              color: "#aab7c4",
             },
-          }}
-        />
-      </div>
+          },
+          invalid: {
+            color: "#e63946",
+            iconColor: "#e63946",
+          },
+        },
+      }}
+    />
+  </div>
 
-      <button
-        type="submit"
-        className={`w-full py-3 px-4 rounded-md text-white font-semibold transition ${
-          isProcessing || !stripe
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-gradient-to-r from-teal-500 to-green-400 hover:from-teal-600 hover:to-green-500"
-        }`}
-        disabled={!stripe || isProcessing || !clientSecret}
-      >
-        {isProcessing ? (
-          <span className="flex items-center justify-center space-x-2">
-            <svg
-              className="animate-spin h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v4a4 4 0 000 8v4a8 8 0 01-8-8z"
-              ></path>
-            </svg>
-            <span>Processing...</span>
-          </span>
-        ) : (
-          `Pay Now`
-        )}
-      </button>
-      <p className="text-red-600 text-center">{error}</p>
-    </form>
+  <button
+    type="submit"
+    className={`w-full py-3 px-4 rounded-lg text-white font-semibold transition-all duration-300 ${
+      isProcessing || !stripe
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-gradient-to-r from-teal-500 to-green-400 hover:from-teal-600 hover:to-green-500"
+    }`}
+    disabled={!stripe || isProcessing || !clientSecret}
+  >
+    {isProcessing ? (
+      <span className="flex items-center justify-center space-x-2">
+        <svg
+          className="animate-spin h-5 w-5 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          ></circle>
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v4a4 4 0 000 8v4a8 8 0 01-8-8z"
+          ></path>
+        </svg>
+        <span>Processing...</span>
+      </span>
+    ) : (
+      `Pay Now`
+    )}
+  </button>
+
+  {error && (
+    <p className="text-red-600 text-center mt-2 text-sm font-medium">
+      {error}
+    </p>
+  )}
+
+  <p className="text-sm text-center text-gray-500">
+    By proceeding, you agree to our{" "}
+    <a href="/terms" className="text-teal-500 underline hover:text-teal-600">
+      Terms and Conditions
+    </a>.
+  </p>
+</form>
+
   );
 };
 

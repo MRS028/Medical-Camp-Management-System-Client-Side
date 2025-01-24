@@ -6,7 +6,6 @@ import Login from "../Components/AuthLayout/Login/Login";
 import Register from "../Components/AuthLayout/Register/Register";
 import AvailableCamps from "../Pages/AvailableCamp/AvailableCamp";
 import CampDetails from "../Pages/CampDetails/CampDetails";
-import JoinCampModal from "../Pages/JoinCCamp/JoinCampModal";
 import PrivateRoute from "./PrivateRoute";
 import DashBoard from "../Dashboard/Dashboard/DashBoard";
 import AdminRoute from "./AdminRoute";
@@ -18,9 +17,10 @@ import RegisteredCamps from "../Dashboard/Participant/RegisteredCamps/Registered
 import ManageRegisteredCamps from "../Dashboard/Admin/ManageRegisteredCamps/ManageRegisteredCamps";
 import Analytics from "../Dashboard/Participant/Analytic/Analytics";
 import PaymentHistory from "../Dashboard/Participant/PaymentHistory/PaymentHistory";
-import DashBoardSideBar from "../Dashboard/Dashboard/DashBoardSideBar";
 import OrganizerProfile from "../Dashboard/Admin/OrganizerProfile/OrganizerProfile";
 import Payment from "../Dashboard/Payment/Payment";
+import AdminHome from "../Dashboard/Admin/AdminHome/AdminHome";
+import UserHome from "../Dashboard/Participant/UserHome/UserHome";
 
 const Router = createBrowserRouter([
   {
@@ -77,6 +77,12 @@ const Router = createBrowserRouter([
         ),
       },
       {
+        path: "adminHome",
+        element: <AdminRoute>
+          <AdminHome />
+        </AdminRoute>,
+      },
+      {
         path: "allUsers",
         element: (
           <AdminRoute>
@@ -110,8 +116,8 @@ const Router = createBrowserRouter([
       },
       //participant routes
       {
-        path: "dashBoardSideBar",
-        element: <DashBoardSideBar />,
+        path: "userHome",
+        element: <UserHome/>,
       },
       {
         path: "profile",

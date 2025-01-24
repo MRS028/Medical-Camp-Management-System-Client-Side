@@ -30,19 +30,19 @@ const PaymentHistory = () => {
           heading={"Payment History"}
           subHeading={"Great people Never Die"}
         ></SectionTitle>
-        
+
         {/* <h1 className="text-3xl font-bold ">Payment History</h1> */}
       </div>
       <div className="mb-6 pt-5 flex justify-center">
-          {/* <label className="label font-semibold ">Search</label> */}
-          <input
-            type="text"
-            placeholder="Search by camp name..."
-            className="px-4 py-2 w-1/2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-teal-700"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+        {/* <label className="label font-semibold ">Search</label> */}
+        <input
+          type="text"
+          placeholder="Search by camp name..."
+          className="px-4 py-2 w-1/2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-teal-700"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
       <div className="bg-white shadow-lg rounded-lg p-6">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
@@ -69,7 +69,17 @@ const PaymentHistory = () => {
                 >
                   <td className="px-6 py-4 font-semibold">{index + 1}</td>
                   <td className="px-6 py-4">{payment.campName}</td>
-                  <td className="px-6 py-4">{payment.transactionId}</td>
+                  <td className="px-6 py-4">
+                    {payment.date
+                      ? new Date(payment.date).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "N/A"}
+                  </td>
+
+                  {/*date: 2025-01-24T12:35:01.566Z */}
                   <td className="px-6 py-4">${payment.campFees}</td>
                   <td className="px-6 py-4">
                     {payment.paymentStatus === "Paid" ? (

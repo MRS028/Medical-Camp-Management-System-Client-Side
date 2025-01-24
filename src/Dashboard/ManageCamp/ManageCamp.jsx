@@ -8,7 +8,7 @@ import SectionTitle from "../../Components/SectionTitle/SectionTitle";
 
 const ManageCamp = () => {
   const [camps, setCamps] = useState([]);
-  const [selectedCamp, setSelectedCamp] = useState(null);
+  const [selectedCamp, setSelectedCamp] = useState([]);
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
   useScrollToTop();
@@ -79,6 +79,7 @@ const ManageCamp = () => {
       camp.campFees.toString().includes(searchTerm)
   ).reverse(); 
 
+  console.log(selectedCamp)
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-md mt-6">
@@ -144,7 +145,7 @@ const ManageCamp = () => {
                 <td className="px-6 py-4 text-center font-semibold space-y-2">
                   <button
                     className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 focus:outline-none"
-                    onClick={() => setSelectedCamp(camp._id)}
+                    onClick={() => setSelectedCamp(camp)}
                   >
                     <FaEdit />
                   </button>
@@ -164,6 +165,7 @@ const ManageCamp = () => {
       {selectedCamp && (
         <UpdateModal
           camp={selectedCamp}
+          
           onUpdate={(updatedData) =>
             handleUpdate(selectedCamp._id, updatedData)
           }

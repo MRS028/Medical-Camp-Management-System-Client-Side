@@ -4,11 +4,13 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const JoinCampModal = ({ camp, onClose, onRegister }) => {
   const { user } = useAuth();
   const loggedInUser = user;
   const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   // console.log(camp._id)
 
@@ -58,11 +60,12 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
       cancelButtonText: "Back",
     }).then((result) => {
       if (result.isConfirmed) {
+        // axiosSecure.patch()
         // If user confirms, send the data to the server
         axiosPublic
           .post("/join-camps", registrationData)
-          .then((res) => {
-            console.log(res.data);
+          .then(() => {
+            // console.log(res.data);
             Swal.fire({
               icon: "success",
               title: "Registration Successful!",

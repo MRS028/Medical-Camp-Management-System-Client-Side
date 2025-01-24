@@ -50,10 +50,9 @@ const Register = () => {
                 console.log("User added to the database");
                 reset();
                 Swal.fire({
-                  position: "top",
-                  icon: "success",
                   title: "Sign Up Successful",
-                  showConfirmButton: false,
+                  text: "Assalamuwalaikum, Welcome to our MediCamp",
+                  icon: "success",
                   timer: 1500,
                 });
 

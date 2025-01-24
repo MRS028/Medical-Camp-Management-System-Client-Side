@@ -10,6 +10,7 @@ import {
   FaEnvelope,
   FaBars,
   FaTimes,
+  FaUsers,
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../../Hooks/useAdmin";
@@ -24,7 +25,7 @@ const DashBoard = () => {
       <div
         className={`${
           menuOpen ? "block" : "hidden"
-        } w-64 min-h-screen bg-gradient-to-br from-teal-500 to-green-400  text-white fixed top-0 left-0 shadow-lg md:block z-50`}
+        } w-64 h-screen bg-gradient-to-br  from-teal-500 to-green-400  text-white fixed top-0 left-0 shadow-lg md:block z-50`}
       >
         <div className="p-4 ">
           <h1 className="text-2xl font-bold text-center mb-2">
@@ -33,17 +34,31 @@ const DashBoard = () => {
           <p className="text-sm text-center font-light">
             Medical Camp Management System
           </p>
-          <p className="divider divider-neutral"></p>
+          {/* <p className="divider divider-neutral"></p> */}
         </div>
+        <div className="mx-4 border-b-2 border-b-black"></div>
 
-        <ul className="menu p-4 font-medium text-sm">
+        <ul className="menu p-4  font-semibold text-sm">
           {isAdmin ? (
             <>
               <li>
                 <NavLink
+                  to="/dashboard/adminHome"
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
+                      isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
+                    }`
+                  }
+                >
+                  <FaHome className="text-base" />
+                  Admin Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
                   to="/dashboard/organizerProfile"
                   className={({ isActive }) =>
-                    `flex items-center gap-3 p-3 rounded-lg transition ${
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -56,7 +71,7 @@ const DashBoard = () => {
                 <NavLink
                   to="/dashboard/addCamp"
                   className={({ isActive }) =>
-                    `flex items-center gap-3 p-3 rounded-lg transition ${
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -69,7 +84,7 @@ const DashBoard = () => {
                 <NavLink
                   to="/dashboard/manageCamps"
                   className={({ isActive }) =>
-                    `flex items-center gap-3 p-3 rounded-lg transition ${
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -82,7 +97,7 @@ const DashBoard = () => {
                 <NavLink
                   to="/dashboard/manageRegisteredCamps"
                   className={({ isActive }) =>
-                    `flex items-center gap-3 p-3 rounded-lg transition ${
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -95,12 +110,12 @@ const DashBoard = () => {
                 <NavLink
                   to="/dashboard/allUsers"
                   className={({ isActive }) =>
-                    `flex items-center gap-3 p-3 rounded-lg transition ${
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
                 >
-                  <FaClipboardList className="text-base" />
+                  <FaUsers className="text-base" />
                   All Users
                 </NavLink>
               </li>
@@ -109,9 +124,22 @@ const DashBoard = () => {
             <>
               <li>
                 <NavLink
+                  to="/dashboard/userHome"
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
+                      isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
+                    }`
+                  }
+                >
+                  <FaHome className="text-base" />
+                  Participant Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
                   to="/dashboard/analytics"
                   className={({ isActive }) =>
-                    `flex items-center gap-3 p-3 rounded-lg transition ${
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -124,7 +152,7 @@ const DashBoard = () => {
                 <NavLink
                   to="/dashboard/profile"
                   className={({ isActive }) =>
-                    `flex items-center gap-3 p-3 rounded-lg transition ${
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -137,7 +165,7 @@ const DashBoard = () => {
                 <NavLink
                   to="/dashboard/registeredCamps"
                   className={({ isActive }) =>
-                    `flex items-center gap-3 p-3 rounded-lg transition ${
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -150,7 +178,7 @@ const DashBoard = () => {
                 <NavLink
                   to="/dashboard/paymentHistory"
                   className={({ isActive }) =>
-                    `flex items-center gap-3 p-3 rounded-lg transition ${
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -163,13 +191,13 @@ const DashBoard = () => {
           )}
 
           {/* Shared Links */}
-          <div className=" my-4"></div>
-          <p className="divider divider-neutral"></p>
+          <div className=" my-2 border-b-2 border-b-black"></div>
+          {/* <p className="divider divider-neutral"></p> */}
           <li>
             <NavLink
               to="/"
               className={({ isActive }) =>
-                `flex items-center gap-3 p-3 rounded-lg transition ${
+                `flex items-center gap-1 p-3 rounded-lg transition ${
                   isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                 }`
               }
@@ -182,7 +210,7 @@ const DashBoard = () => {
             <NavLink
               to="/availableCamps"
               className={({ isActive }) =>
-                `flex items-center gap-3 p-3 rounded-lg transition ${
+                `flex items-center gap-1 p-3 rounded-lg transition ${
                   isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                 }`
               }
@@ -195,7 +223,7 @@ const DashBoard = () => {
             <NavLink
               to="/contact"
               className={({ isActive }) =>
-                `flex items-center gap-3 p-3 rounded-lg transition ${
+                `flex items-center gap-1 p-3 rounded-lg transition ${
                   isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                 }`
               }
@@ -208,7 +236,7 @@ const DashBoard = () => {
             <NavLink
               to="/about"
               className={({ isActive }) =>
-                `flex items-center gap-3 p-3 rounded-lg transition ${
+                `flex items-center gap-1 p-3 rounded-lg transition ${
                   isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                 }`
               }
