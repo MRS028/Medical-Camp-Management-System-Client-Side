@@ -142,6 +142,19 @@ const OrganizerProfile = () => {
                       {currentUser?.role || "Organizer"}
                     </span>
                   </p>
+                  <p className="text-base text-gray-700 mb-1">
+                    <span className="font-medium">Created: </span>
+                    <span className="text-gray-500">
+                      {user?.metadata?.creationTime || "Not Available"}
+                    </span>
+                  </p>
+                  <p className="text-base text-gray-700 mb-1">
+                    <span className="font-medium">Last Login: </span>
+                    <span className="text-gray-500">
+                      {user?.metadata?.lastSignInTime || "Not Available"}
+                    </span>
+                  </p>
+                  
                 </div>
 
                 <div className="mt-6 text-center">

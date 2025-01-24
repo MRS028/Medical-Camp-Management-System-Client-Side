@@ -37,6 +37,10 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
       date: ''
     };
 
+    const participantCount = {
+      action: "increment",
+    }
+
     // Show confirmation modal using SweetAlert2
     Swal.fire({
       title: "Confirm Registration",
@@ -58,9 +62,23 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
       showCancelButton: true,
       confirmButtonText: "Confirm",
       cancelButtonText: "Back",
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
-        // axiosSecure.patch()
+        const res = await axiosSecure.patch(
+          `/participant-count/${camp._id}`,
+          participantCount
+        );
+
+        console.log(res.data);
+        Swal.fire({
+              title: "Loading...",
+              text: "Please wait while we process your request.",
+              allowOutsideClick: false, 
+              didOpen: () => {
+                Swal.showLoading(); 
+              },
+            });
+            Swal.close();
         // If user confirms, send the data to the server
         axiosPublic
           .post("/join-camps", registrationData)

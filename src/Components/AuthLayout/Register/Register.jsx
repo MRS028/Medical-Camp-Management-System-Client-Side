@@ -10,6 +10,7 @@ import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { FaPhotoFilm } from "react-icons/fa6";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import useScrollToTop from "../../../Hooks/useScrollToTop";
+import { date } from "yup";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,28 +27,39 @@ const Register = () => {
   } = useForm();
   //form-submission
   const onSubmit = (data) => {
-    console.log(data);
+    Swal.fire({
+      title: "Loading...",
+      text: "Please wait while we process your request.",
+      allowOutsideClick: false, 
+      didOpen: () => {
+        Swal.showLoading(); 
+      },
+    });
+    //console.log(data);
     createUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
-      console.log(loggedUser);
-
+      // console.log(loggedUser);
+      
       updateUserProfile(data?.name, data?.photoURL)
         .then(() => {
+
           const userInfo = {
             name: data.name,
             email: data.email,
             photoURL: data.photoURL,
-            role: 'user'
+            role: 'user',
+            created : new Date(),
           };
-          console.log(userInfo);
+          //console.log(userInfo);
 
           axiosPublic
             .post("/users", userInfo)
             .then((res) => {
-              console.log(res.data);
+              // console.log(res.data);
+              Swal.close();
 
               if (res.data.insertedId) {
-                console.log("User added to the database");
+                // console.log("User added to the database");
                 reset();
                 Swal.fire({
                   title: "Sign Up Successful",

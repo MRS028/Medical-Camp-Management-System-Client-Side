@@ -30,8 +30,9 @@ const ManageRegisteredCamps = () => {
       return res.data;
     },
   });
-  const handleCancel = async (id) => {
-    console.log(id);
+  const handleCancel = async (camp) => {
+    console.log(camp);
+    // console.log(camp);
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to cancel this camp?",
@@ -46,13 +47,24 @@ const ManageRegisteredCamps = () => {
         const canceledData = {
           confirmationStatus: "Canceled",
         };
+
         const res = await axiosSecure.patch(
-          `/confirmedCamp/${id}`,
+          `/confirmedCamp/${camp._id}`,
           canceledData
         );
         refetch();
+
         if (res?.data?.modifiedCount > 0) {
           // console.log("Confirmed", res.data);
+          const participantCount = {
+            action: "decrement",
+          };
+          //Participant Count decrease
+          const res = await axiosSecure.patch(
+            `/participant-count/${camp.campId}`,
+            participantCount
+          );
+
           Swal.fire({
             icon: "error",
             title: "Canceled",
@@ -66,7 +78,8 @@ const ManageRegisteredCamps = () => {
   };
 
   const handleConfirm = async (id) => {
-    console.log(id);
+    // console.log(id);
+
     const confirmData = {
       confirmationStatus: "Confirmed",
     };
@@ -184,13 +197,15 @@ const ManageRegisteredCamps = () => {
                     onClick={(id) => handleConfirm(camp._id)}
                     className={`${
                       camp.paymentStatus === "Unpaid" ||
-                      camp.confirmationStatus === "Confirmed"
+                      camp.confirmationStatus === "Confirmed" ||
+                      camp.confirmationStatus === "Canceled"
                         ? "bg-gray-400 text-white cursor-not-allowed"
                         : "bg-gradient-to-r from-teal-500 to-green-400 text-white"
                     } px-4 py-2 rounded flex items-center`}
                     disabled={
                       camp.paymentStatus === "Unpaid" ||
-                      camp.confirmationStatus === "Confirmed"
+                      camp.confirmationStatus === "Confirmed" ||
+                      camp.confirmationStatus === "Canceled"
                     }
                     data-tooltip-id="confirm-tooltip"
                     data-tooltip-content="Make Confirm"
@@ -200,14 +215,17 @@ const ManageRegisteredCamps = () => {
                 </td>
                 <td className="px-6 py-4  gap-4">
                   <button
-                    onClick={() => handleCancel(camp._id)}
-                    className={`${ 
+                    onClick={() => handleCancel(camp)}
+                    className={`${
                       camp.confirmationStatus === "Canceled" ||
                       camp.confirmationStatus === "Confirmed"
                         ? "bg-gray-400 text-white cursor-not-allowed"
                         : "bg-red-500 text-white hover:bg-red-600"
                     } px-4 py-2 rounded flex items-center`}
-                    disabled={camp.confirmationStatus === "Confirmed"}
+                    disabled={
+                      camp.confirmationStatus === "Confirmed" ||
+                      camp.confirmationStatus === "Canceled"
+                    }
                     data-tooltip-id="cancel-tooltip"
                     data-tooltip-content="Cancel registration"
                   >

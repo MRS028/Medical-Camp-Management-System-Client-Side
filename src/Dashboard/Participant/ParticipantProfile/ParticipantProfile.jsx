@@ -71,9 +71,9 @@ const ParticipantProfile = () => {
     Swal.fire({
       title: "Loading...",
       text: "Please wait while we process your request.",
-      allowOutsideClick: false, // বাইরে ক্লিক করলে বন্ধ হবে না
+      allowOutsideClick: false, 
       didOpen: () => {
-        Swal.showLoading(); // লোডিং আইকন দেখাবে
+        Swal.showLoading(); 
       },
     });
     Swal.close();

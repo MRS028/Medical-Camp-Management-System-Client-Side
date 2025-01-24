@@ -12,7 +12,7 @@ const NavBar = () => {
   const [users, loading] = useUsers();
   const adminUsers = users.filter((user) => user.role === "admin");
 
-  console.log(adminUsers);
+  // console.log(adminUsers);
 
   if (loading) {
     return <LoadingPage></LoadingPage>;

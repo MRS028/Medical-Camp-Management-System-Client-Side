@@ -36,6 +36,9 @@ const RegisteredCamps = () => {
       </div>
     );
   }
+  const handleDelete = (id) =>{
+    console.log(id)
+  }
 
   const filteredCamps = JoinedCamps.filter(
     (camp) =>
@@ -130,7 +133,8 @@ const RegisteredCamps = () => {
                 </td>
                 {/* cancel button */}
                 <td className="px-6 py-4  gap-4">
-                  <button
+                  <button 
+                  onClick={()=>handleDelete(camp._id)}
                     className={`${
                       camp.paymentStatus === "Paid"
                         ? "bg-gray-400 text-white cursor-not-allowed"

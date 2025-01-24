@@ -22,6 +22,7 @@ const ManageCamp = () => {
   }, [axiosSecure]);
 
   const handleDelete = async (id) => {
+    
     const confirm = await Swal.fire({
       title: "Are you sure to delete this camp?",
       text: "Once you delete it cannot be undone!",
