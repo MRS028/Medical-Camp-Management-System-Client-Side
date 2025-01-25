@@ -8,7 +8,7 @@ import SectionTitle from "../../Components/SectionTitle/SectionTitle";
 
 const ManageCamp = () => {
   const [camps, setCamps] = useState([]);
-  const [selectedCamp, setSelectedCamp] = useState([]);
+  const [selectedCamp, setSelectedCamp] = useState();
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
   useScrollToTop();
@@ -34,7 +34,7 @@ const ManageCamp = () => {
     });
 
     if (confirm.isConfirmed) {
-      const res = await axiosSecure.delete(`/camps/${id}`);
+      const res = await axiosSecure.delete(`/delete-camp/${id}`);
       if (res.data.deletedCount > 0) {
         setCamps(camps.filter((camp) => camp._id !== id));
         Swal.fire("Deleted!", "The camp has been deleted.", "success");

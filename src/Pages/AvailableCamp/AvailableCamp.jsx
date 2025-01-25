@@ -39,7 +39,7 @@ const AvailableCamps = () => {
   }
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-center mb-6">Available Camps</h1>
 
       {/* Search and Sort Bar */}
@@ -55,18 +55,18 @@ const AvailableCamps = () => {
           <FaSearch className="text-gray-500" />
         </div>
 
-        <div className="lg:flex md:pt-0 pt-5 lg:pt-0 lg:mx-0 mx-6 lg:items-center lg:justify-center space-x-2">
+        <div className="lg:flex md:pt-0 pt-5 lg:pt-0 lg:mx-0 mx-4 justify-self-auto lg:items-center lg:justify-center space-x-2">
           <button
             className="btn btn-sm"
             onClick={() => setSortOption("alphabetical")}
           >
-            <FaSortAlphaDown className="mr-2 text-blue-500" /> Sort by Name
+            <FaSortAlphaDown className="mr-1 text-blue-500" /> Sort by Name
           </button>
           <button
             className="btn btn-sm"
             onClick={() => setSortOption("mostRegistered")}
           >
-            <FaUsers className="mr-2 text-purple-500" /> Most Registered
+            <FaUsers className="mr-1 text-purple-500" /> Most Registered
           </button>
           <button
             className="btn hidden lg:block btn-outline btn-sm"

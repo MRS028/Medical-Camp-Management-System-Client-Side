@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../MainLayout/MainLayout";
-import Home from "../Home/Home";
 import AuthLayout from "../Components/AuthLayout/AuthLayout/AuthLayout";
 import Login from "../Components/AuthLayout/Login/Login";
 import Register from "../Components/AuthLayout/Register/Register";
@@ -21,6 +20,7 @@ import OrganizerProfile from "../Dashboard/Admin/OrganizerProfile/OrganizerProfi
 import Payment from "../Dashboard/Payment/Payment";
 import AdminHome from "../Dashboard/Admin/AdminHome/AdminHome";
 import UserHome from "../Dashboard/Participant/UserHome/UserHome";
+import Home from "../Home/Home/Home";
 
 const Router = createBrowserRouter([
   {

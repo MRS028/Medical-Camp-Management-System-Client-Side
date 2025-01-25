@@ -5,6 +5,7 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useScrollToTop from "../../Hooks/useScrollToTop";
+import { useNavigate } from "react-router-dom";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -19,6 +20,7 @@ const AddCamp = () => {
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   useScrollToTop();
+  const navigate = useNavigate();
   //   name
   //   "Blood Donation Camp"
   //   image
@@ -37,6 +39,15 @@ const AddCamp = () => {
   //   200
 
   const onSubmit = async (data) => {
+    Swal.fire({
+      title: "Loading...",
+      text: "Please wait while we process your request.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     // console.log(data);
     const imageFile = { image: data.image[0] };
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
@@ -53,22 +64,24 @@ const AddCamp = () => {
         dateTime: data.dateTime,
         location: data.location,
         professional: data.healthcareProfessional,
-        participants: parseFloat(data.participantCount),
+        participants: parseFloat(data.participantCount) || 0,
         campFees: parseFloat(data.fees),
         description: data.description,
       };
-    //   console.log(campInfo);
-    const addCampRes = await axiosSecure.post('/camp',campInfo);
-    console.log(addCampRes.data)
-    if(addCampRes.data.insertedId){
+      //   console.log(campInfo);
+      const addCampRes = await axiosSecure.post("/camp", campInfo);
+      // console.log(addCampRes.data)
+      if (addCampRes.data.insertedId) {
+        Swal.close();
         reset();
+        navigate("/dashboard/manageCamps");
         Swal.fire({
-            title: "Item Added Successfully",
-            icon: "success",
-            draggable: true,
-            timer: 2000,
-          });
-    }
+          title: "Camp Added Successfully",
+          icon: "success",
+          draggable: true,
+          timer: 2000,
+        });
+      }
     }
   };
 

@@ -142,7 +142,7 @@ const ManageRegisteredCamps = () => {
 
               <th className="px-6 py-3 text-center">Payment Status</th>
               <th className="px-6 py-3 text-center">Confirmation Status</th>
-              <th className="px-6 py-3 text-center">Confirmed Button</th>
+              <th className="px-6 py-3 text-center">Confirmed Status</th>
               <th className="px-6 py-3 text-center">
                 Cancel <br /> Status
               </th>

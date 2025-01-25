@@ -1,7 +1,9 @@
 import React from "react";
 import { Typewriter } from "react-simple-typewriter";
+import useAuth from "../../../Hooks/useAuth";
 
 const UserHome = () => {
+  const { user } = useAuth();
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 p-6 ">
       {/* Welcome Banner */}
@@ -10,7 +12,7 @@ const UserHome = () => {
           Welcome,{" "}
           <span>
             <Typewriter
-              words={["User!", "Health Enthusiast!", "Friend!"]}
+              words={[`${user.displayName}`, "Health Enthusiast!", "Friend!"]}
               loop={0}
               cursor
               cursorStyle="|"
@@ -34,19 +36,25 @@ const UserHome = () => {
         </div>
         {/* Stat Card 2 */}
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-teal-500">
-          <h2 className="text-xl font-bold text-gray-800">Completed Sessions</h2>
+          <h2 className="text-xl font-bold text-gray-800">
+            Completed Sessions
+          </h2>
           <p className="text-4xl font-extrabold text-green-500 mt-2">32</p>
         </div>
         {/* Stat Card 3 */}
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-yellow-400">
-          <h2 className="text-xl font-bold text-gray-800">Pending Registrations</h2>
+          <h2 className="text-xl font-bold text-gray-800">
+            Pending Registrations
+          </h2>
           <p className="text-4xl font-extrabold text-yellow-500 mt-2">5</p>
         </div>
       </div>
 
       {/* Recent Activities */}
       <div className="bg-white shadow-lg rounded-lg p-6 mt-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Recent Activities</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          Recent Activities
+        </h2>
         <ul className="space-y-4">
           {/* Activity Item */}
           <li className="flex justify-between items-center p-4 bg-gray-50 rounded-md shadow-sm">

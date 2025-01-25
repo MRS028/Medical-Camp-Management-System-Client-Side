@@ -12,13 +12,16 @@ import useJoinedCamps from "../../../Hooks/useJoinedCamps";
 import useScrollToTop from "../../../Hooks/useScrollToTop";
 import { Link, useNavigate } from "react-router-dom";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const RegisteredCamps = () => {
+  const axiosSecure = useAxiosSecure();
   useScrollToTop();
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [JoinedCamps, isError, loading] = useJoinedCamps();
+  const [JoinedCamps, isError, loading, refetch] = useJoinedCamps();
   //   console.log(JoinedCamps)
 
   const handlePayment = (camp) => {
@@ -36,16 +39,51 @@ const RegisteredCamps = () => {
       </div>
     );
   }
-  const handleDelete = (id) =>{
-    console.log(id)
-  }
+  const handleDelete = async (camp) => {
+    // console.log(camp);
+    // console.log("CampId:", camp.campId);
+
+    // Confirmation before deletion
+    const confirm = await Swal.fire({
+      title: "Are you sure to delete this camp?",
+      text: "Once you delete it, it cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#1bb1b1",
+      confirmButtonText: "Yes, Delete it!",
+    });
+
+    // If confirmed, delete the camp
+    if (confirm.isConfirmed) {
+      const participantCount = {
+        action: "decrement",
+      };
+
+      // Update participant count
+      const result = await axiosSecure.patch(
+        `/participant-count/${camp.campId}`,
+        participantCount
+      );
+      console.log("Decrement Response:", result.data);
+      const deleteResponse = await axiosSecure.delete(
+        `/delete-joined-camp/${camp._id}`
+      );
+      console.log("Delete Response:", deleteResponse.data);
+
+      // Check if the camp was deleted successfully
+      if (deleteResponse.data.deletedCount > 0) {
+        Swal.fire("Deleted!", "The camp has been deleted.", "success");
+        refetch();
+      }
+    }
+  };
 
   const filteredCamps = JoinedCamps.filter(
     (camp) =>
       camp.campName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       camp.campFees.toString().includes(searchTerm)
-  ).reverse(); 
-  
+  ).reverse();
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-300 min-h-screen">
@@ -116,7 +154,6 @@ const RegisteredCamps = () => {
                     >
                       <FaDollarSign className="mr-2" /> Pay
                     </button>
-                    
                   )}
                 </td>
                 {/* isconfirmed row */}
@@ -133,8 +170,8 @@ const RegisteredCamps = () => {
                 </td>
                 {/* cancel button */}
                 <td className="px-6 py-4  gap-4">
-                  <button 
-                  onClick={()=>handleDelete(camp._id)}
+                  <button
+                    onClick={() => handleDelete(camp)}
                     className={`${
                       camp.paymentStatus === "Paid"
                         ? "bg-gray-400 text-white cursor-not-allowed"

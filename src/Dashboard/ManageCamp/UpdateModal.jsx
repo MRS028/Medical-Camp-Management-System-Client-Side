@@ -6,9 +6,9 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const UpdateModal = ({camp,  onUpdate, onClose }) => {
+const UpdateModal = ({ camp, onUpdate, onClose }) => {
   const axiosPublic = useAxiosPublic();
-  console.log(camp)
+  console.log(camp);
   const {
     register,
     handleSubmit,
@@ -131,6 +131,7 @@ const UpdateModal = ({camp,  onUpdate, onClose }) => {
               Participent Count
             </label>
             <input
+              readOnly
               type="number"
               {...register("participants", {
                 required: "Participant count is required",

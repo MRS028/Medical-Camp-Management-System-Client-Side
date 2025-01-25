@@ -69,7 +69,7 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
           participantCount
         );
 
-        console.log(res.data);
+        // console.log(res.data);
         Swal.fire({
               title: "Loading...",
               text: "Please wait while we process your request.",
