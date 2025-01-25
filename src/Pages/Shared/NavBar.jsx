@@ -10,8 +10,7 @@ const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, logOut } = useAuth();
   const [users, loading] = useUsers();
-  const adminUsers = users.filter((user) => user.role === "admin");
-
+  // const adminUsers = users.filter((user) => user.role === "admin");
   // console.log(adminUsers);
 
   if (loading) {
@@ -90,11 +89,11 @@ const NavBar = () => {
       {user && user.email ? (
         <li>
           <NavLink
-           to={`${
-            users.some((u) => u.email === user.email && u.role === "admin")
-              ? "/dashboard/adminHome"
-              : "/dashboard/userHome"
-          }`}
+            to={`${
+              users.some((u) => u.email === user.email && u.role === "admin")
+                ? "/dashboard/adminHome"
+                : "/dashboard/userHome"
+            }`}
             className={({ isActive }) =>
               isActive
                 ? "text-white font-semibold border-b"
@@ -112,7 +111,7 @@ const NavBar = () => {
   );
 
   return (
-    <nav className="bg-gradient-to-r from-teal-500 to-green-400 text-white shadow-md sticky top-0 z-50">
+    <nav className="bg-gradient-to-r  from-teal-500 to-green-400 text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 flex items-center justify-between h-16">
         {/* Logo and Website Name */}
         <div className="flex items-center gap-3">

@@ -95,7 +95,7 @@ const CampDetails = () => {
           <div className="text-center">
             <button
               className="btn btn-ghost text-white bg-gradient-to-r from-teal-500 to-green-400 btn-md sm:btn-lg"
-              onClick={handleOpenModal} // Open the modal
+              onClick={handleOpenModal} 
             >
               Join Camp
             </button>

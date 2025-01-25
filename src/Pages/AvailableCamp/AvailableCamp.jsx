@@ -95,7 +95,7 @@ const AvailableCamps = () => {
               <img
                 src={camp.image}
                 alt={camp.name}
-                className="rounded-lg w-full h-full object-cover"
+                className="rounded-lg w-full h-full object-cover "
               />
             </div>
             <div className="card-body">
@@ -124,7 +124,7 @@ const AvailableCamps = () => {
               <div className="card-actions justify-end">
                 <Link
                   to={`/campDetails/${camp._id}`}
-                  className="btn btn-ghost text-white bg-gradient-to-r from-teal-500 to-green-400 btn-sm"
+                  className="btn btn-ghost hover:bg-teal-700  btn-md text-white bg-gradient-to-r from-teal-500 to-green-400 "
                 >
                   Details
                 </Link>

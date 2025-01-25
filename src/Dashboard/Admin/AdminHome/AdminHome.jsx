@@ -1,7 +1,10 @@
 import React from "react";
 import { FaUsers, FaClipboardCheck, FaCampground, FaChartBar } from "react-icons/fa";
+import useUsers from "../../../Hooks/useUsers";
 
 const AdminHome = () => {
+  const [users,loading] = useUsers();
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 p-6">
       {/* Welcome Banner */}
