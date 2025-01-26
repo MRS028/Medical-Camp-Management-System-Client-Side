@@ -8,6 +8,7 @@ import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import Swal from "sweetalert2";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import useAuth from "../../../Hooks/useAuth";
+import useScrollToTop from "../../../Hooks/useScrollToTop";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -19,17 +20,17 @@ const Login = () => {
   const { logIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  useScrollToTop();
+
   useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+    window.scrollTo(0, 0);
+  }, []);
 
   const from = location.state?.from?.pathname || "/";
 
   const onSubmit = (data) => {
-    console.log(data);
     logIn(data.email, data.password).then((result) => {
       const user = result.user;
-      console.log("Logged in user : ", user);
       Swal.fire({
         title: "Login Success",
         text: "Assalamuwalaikum, Welcome to our MediCamp",
@@ -37,8 +38,6 @@ const Login = () => {
         timer: 1500,
       });
       navigate(from, { replace: true });
-
-      // console.log(user);
     });
   };
 
@@ -49,7 +48,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex  flex-col lg:flex-row md:flex-row">
+    <div className="flex flex-col lg:flex-row md:flex-row">
       {/* Left Section */}
       <div className="md:w-1/2 lg:w-1/2 bg-teal-800 flex items-center justify-center p-6">
         <div className="text-center">
@@ -113,6 +112,15 @@ const Login = () => {
                   className="w-full focus:outline-none"
                   {...register("password", {
                     required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+                      message:
+                        "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+                    },
                   })}
                 />
                 <button

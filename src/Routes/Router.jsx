@@ -21,6 +21,7 @@ import Payment from "../Dashboard/Payment/Payment";
 import AdminHome from "../Dashboard/Admin/AdminHome/AdminHome";
 import UserHome from "../Dashboard/Participant/UserHome/UserHome";
 import Home from "../Home/Home/Home";
+import Doctors from "../Pages/Doctor/Doctors";
 
 const Router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const Router = createBrowserRouter([
       {
         path: "/availableCamps",
         element: <AvailableCamps></AvailableCamps>,
+      },
+      {
+        path: "/doctors",
+        element: <Doctors></Doctors>,
       },
       {
         path: "/campDetails/:id",

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaBars, FaTimes, FaFirstAid } from "react-icons/fa";
+import { FaBars, FaTimes, FaFirstAid, FaRegistered, FaSignOutAlt, FaSignInAlt } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
@@ -143,14 +143,14 @@ const NavBar = () => {
                 onClick={handleLogOut}
                 className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
               >
-                LogOut
+              <FaSignOutAlt className="mr-1 inline-block"/>  LogOut
               </button>
             </>
           ) : (
             <>
               <Link to="/auth/login">
-                <button className="bg-white text-teal-500 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition">
-                  Join With US
+                <button className="bg-white text-teal-500 lg:px-4 lg:py-2 rounded-full font-semibold hover:bg-teal-100 transition">
+                 <FaSignInAlt className="mr-1 inline-block"/> Join With US
                 </button>
               </Link>
             </>
@@ -205,7 +205,7 @@ const NavBar = () => {
             ) : (
               <>
                 <Link to="/auth/login">
-                  <button className="bg-white text-teal-500  py-2 rounded-full font-semibold hover:bg-teal-100 transition">
+                  <button className="bg-white mt-3 text-teal-500 px-4  py-2 rounded-3xl font-semibold hover:bg-teal-100 transition">
                     Join With US
                   </button>
                 </Link>

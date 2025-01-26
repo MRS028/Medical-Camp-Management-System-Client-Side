@@ -45,7 +45,7 @@ const OrganizerProfile = () => {
     }
     updateUserProfile(data?.name, imageUrl)
       .then(() => {
-        console.log("User updatetd in firebase");
+        console.log("User updatetd");
       })
       .catch((err) => {
         console.log(err);

@@ -5,24 +5,27 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import UpdateModal from "./UpdateModal";
 import useScrollToTop from "../../Hooks/useScrollToTop";
 import SectionTitle from "../../Components/SectionTitle/SectionTitle";
+import LoadingPage from "../../Pages/Loading/LoadingPage";
 
 const ManageCamp = () => {
   const [camps, setCamps] = useState([]);
   const [selectedCamp, setSelectedCamp] = useState();
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
   useScrollToTop();
 
   useEffect(() => {
     const fetchCamps = async () => {
       const res = await axiosSecure.get("/camps");
+
       setCamps(res.data);
+      setLoading(false);
     };
     fetchCamps();
   }, [axiosSecure]);
 
   const handleDelete = async (id) => {
-    
     const confirm = await Swal.fire({
       title: "Are you sure to delete this camp?",
       text: "Once you delete it cannot be undone!",
@@ -37,23 +40,29 @@ const ManageCamp = () => {
       const res = await axiosSecure.delete(`/delete-camp/${id}`);
       if (res.data.deletedCount > 0) {
         setCamps(camps.filter((camp) => camp._id !== id));
-        Swal.fire("Deleted!", "The camp has been deleted.", "success");
+        Swal.fire({
+          title: "Deleted!",
+          text: "You have deleted successfully!",
+          icon: "success",
+          timer: 1000,
+          cancelButtonColor: "#1bb1b1",
+          showConfirmButton: true,
+        });
       }
     }
   };
 
   const handleUpdate = async (id, updatedData) => {
     const res = await axiosSecure.patch(`/camp/${id}`, updatedData);
-    if(!res.data.modifiedCount){
-        Swal.fire({
-            title: "You don't change anything yet!",
-            text: "If You want then make updates.",
-            icon: "error",
-            timer: 20000,
-            cancelButtonColor: "#1bb1b1",
-            showConfirmButton: true, 
-          });
-       
+    if (!res.data.modifiedCount) {
+      Swal.fire({
+        title: "You don't change anything yet!",
+        text: "If You want then make updates.",
+        icon: "error",
+        timer: 2000,
+        cancelButtonColor: "#1bb1b1",
+        showConfirmButton: true,
+      });
     }
     if (res.data.modifiedCount > 0) {
       setCamps(
@@ -67,25 +76,34 @@ const ManageCamp = () => {
         icon: "success",
         timer: 1500,
         cancelButtonColor: "#1bb1b1",
-        showConfirmButton: true, 
+        showConfirmButton: true,
       });
-      
+
       setSelectedCamp(null);
     }
   };
-  const filteredCamps = camps.filter(
-    (camp) =>
-      camp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      camp.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      camp.campFees.toString().includes(searchTerm)
-  ).reverse(); 
+  const filteredCamps = camps
+    .filter(
+      (camp) =>
+        camp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        camp.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        camp.campFees.toString().includes(searchTerm)
+    )
+    .reverse();
 
-  console.log(selectedCamp)
+  // console.log(selectedCamp)
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-md mt-6">
-      <SectionTitle heading={"Manage Camps"} subHeading={"Good People knows the Good People"}></SectionTitle>
-      
+      <SectionTitle
+        heading={"Manage Camps"}
+        subHeading={"Good People knows the Good People"}
+      ></SectionTitle>
+
       <div className="mb-6 pt-5 flex justify-center">
         {/* <label className="label font-semibold ">Search</label> */}
         <input
@@ -100,9 +118,7 @@ const ManageCamp = () => {
         <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-gray-800 text-white">
             <tr>
-              <th className="px-6 py-3 text-left text-sm font-semibold ">
-                #
-              </th>
+              <th className="px-6 py-3 text-left text-sm font-semibold ">#</th>
               <th className="px-6 py-3 text-left text-sm font-semibold ">
                 Image
               </th>
@@ -131,9 +147,19 @@ const ManageCamp = () => {
                   index % 2 === 0 ? "bg-gray-50" : "bg-white"
                 } hover:bg-gray-100`}
               >
-                <td className="px-6 py-4 text-sm font-semibold text-gray-700">{index + 1}</td>
-                <td className="px-6 py-4 text-sm font-semibold text-gray-700"><img src={camp.image} alt="" className="w-12 h-10 rounded-lg"/></td>
-                <td className="px-6 py-4 text-sm font-semibold text-gray-700">{camp.name}</td>
+                <td className="px-6 py-4 text-sm font-semibold text-gray-700">
+                  {index + 1}
+                </td>
+                <td className="px-6 py-4 text-sm font-semibold text-gray-700">
+                  <img
+                    src={camp.image}
+                    alt=""
+                    className="w-12 h-10 rounded-lg"
+                  />
+                </td>
+                <td className="px-6 py-4 text-sm font-semibold text-gray-700">
+                  {camp.name}
+                </td>
                 <td className="px-6 py-4 text-sm font-semibold text-gray-700">
                   {camp.location}
                 </td>
@@ -166,7 +192,6 @@ const ManageCamp = () => {
       {selectedCamp && (
         <UpdateModal
           camp={selectedCamp}
-          
           onUpdate={(updatedData) =>
             handleUpdate(selectedCamp._id, updatedData)
           }

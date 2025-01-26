@@ -53,10 +53,10 @@ const ParticipantProfile = () => {
       });
       imageUrl = res.data?.data?.display_url;
     }
-    console.log(data.name, imageUrl);
+    // console.log(data.name, imageUrl);
     updateUserProfile(data?.name,imageUrl )
       .then(() => {
-        console.log("User updatetd in firebase");
+        console.log("User updatetd");
       })
       .catch((err) => {
         console.log(err);
@@ -82,7 +82,7 @@ const ParticipantProfile = () => {
   };
 
   const saveProfile = async (updatedData) => {
-    console.log(updatedData);
+    // console.log(updatedData);
 
     const res = await axiosSecure.patch(
       `/user/${currentUser._id}`,

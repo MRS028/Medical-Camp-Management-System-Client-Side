@@ -26,7 +26,7 @@ const SocialLogin = () => {
         axiosPublic
           .post("/users", userInfo)
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             // Navigate to the previous page or home
             Swal.fire({
               title: "Login Success",

@@ -12,6 +12,7 @@ import {
 import { FcAbout } from "react-icons/fc";
 import JoinCampModal from "../JoinCCamp/JoinCampModal";
 import useScrollToTop from "../../Hooks/useScrollToTop";
+import SectionTitle from "../../Components/SectionTitle/SectionTitle";
 
 const CampDetails = () => {
   const CampId = useParams();
@@ -52,27 +53,36 @@ const CampDetails = () => {
   return (
     <div className="container mx-auto p-4 sm:p-6">
       <h1 className="text-2xl sm:text-3xl font-bold text-center mb-4 sm:mb-6">
-        {camp.name}
+        <SectionTitle heading={camp.name}></SectionTitle>
+       
       </h1>
 
       <div className="card bg-base-100 shadow-xl border border-gray-200 p-4">
-        <div className="flex md:w-[75%] mx-auto h-64 sm:h-80 flex-wrap justify-center">
+        <div className="flex md:w-[85%] mx-auto md:h-80  flex-wrap justify-center">
           <img
             src={camp.image}
             alt={camp.name}
             className="rounded-lg w-full h-full mb-4"
           />
         </div>
-        <div className="p-4 sm:p-6 space-y-4">
+        <div className="p-4 sm:p-6 space-y-4 opacity-95">
           <p className="text-sm sm:text-lg font-semibold flex items-center">
             <FaDollarSign className="mr-2 text-green-500" />
             Fees: {" "}
             <span className="font-normal ml-1">${camp.campFees || "Free"}</span>
           </p>
-          <p className="text-sm sm:text-lg font-semibold flex items-center">
+          <p className="text-sm sm:text-lg  flex items-center">
             <FaCalendarAlt className="mr-2 text-blue-500" />
-            Date & Time: {" "}
-            <span className="font-normal ml-1">{camp.dateTime}</span>
+           <span className="font-semibold"> Date & Time: {" "} </span> 
+            {new Intl.DateTimeFormat("en-US", {
+                  day: "numeric",
+                  month: "long",   //february format
+                  // month: "short", //feb format
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                }).format(new Date(camp.dateTime))}
           </p>
           <p className="text-sm sm:text-lg font-semibold flex items-center">
             <FaMapMarkerAlt className="mr-2 text-red-500" />

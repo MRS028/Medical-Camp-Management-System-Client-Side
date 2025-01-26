@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Lottie from "react-lottie";
 import doctorAnimation from "../../../assets/Lottie/register.json";
@@ -10,7 +10,6 @@ import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { FaPhotoFilm } from "react-icons/fa6";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import useScrollToTop from "../../../Hooks/useScrollToTop";
-import { date } from "yup";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,48 +17,43 @@ const Register = () => {
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   useScrollToTop();
-  //form-hook
+  
+  // form-hook
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  //form-submission
+  
+  // form-submission
   const onSubmit = (data) => {
     Swal.fire({
       title: "Loading...",
       text: "Please wait while we process your request.",
-      allowOutsideClick: false, 
+      allowOutsideClick: false,
       didOpen: () => {
-        Swal.showLoading(); 
+        Swal.showLoading();
       },
     });
-    //console.log(data);
     createUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
-      // console.log(loggedUser);
       
       updateUserProfile(data?.name, data?.photoURL)
         .then(() => {
-
           const userInfo = {
             name: data.name,
             email: data.email,
             photoURL: data.photoURL,
-            role: 'user',
-            created : new Date(),
+            role: "user",
+            created: new Date(),
           };
-          //console.log(userInfo);
 
           axiosPublic
             .post("/users", userInfo)
             .then((res) => {
-              // console.log(res.data);
               Swal.close();
-
               if (res.data.insertedId) {
-                // console.log("User added to the database");
                 reset();
                 Swal.fire({
                   title: "Sign Up Successful",
@@ -77,7 +71,7 @@ const Register = () => {
     });
   };
 
-  //Lottie animation
+  // Lottie animation
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -91,21 +85,18 @@ const Register = () => {
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen px-4 py-8">
       {/* Left Section with Lottie Animation */}
       <div className="md:w-1/2 items-center justify-center mb-8 md:mb-0">
-      <h2 className="lg:text-5xl text-2xl font-extrabold mb-4 text-center">
+        <h2 className="lg:text-5xl text-2xl font-extrabold mb-4 text-center">
           Welcome to MediCamp
         </h2>
         <p className="text-center mb-6">
           Join our community and get access to premium healthcare resources.
         </p>
         <Lottie options={defaultOptions} height={400} width={340} />
-        {/* <Lottie animationData={doctorAnimation} loop={true} /> */}
       </div>
 
       {/* Right Section with Registration Form */}
-      <div className="md:w-[40%]  bg-white bg-opacity-10 p-8 rounded-2xl shadow-2xl duration-300">
-        <h2 className="text-4xl font-extrabold mb-4 text-center">
-         Register
-        </h2>
+      <div className="md:w-[40%] bg-white bg-opacity-10 p-8 rounded-2xl shadow-2xl duration-300">
+        <h2 className="text-4xl font-extrabold mb-4 text-center">Register</h2>
         
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
           {/* Name Field */}
@@ -126,9 +117,7 @@ const Register = () => {
                 className="w-full pl-10 py-3 border-2 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
               />
               {errors.name && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.name.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
               )}
             </div>
           </div>
@@ -157,17 +146,15 @@ const Register = () => {
                 className="w-full pl-10 py-3 border-2 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
               )}
             </div>
           </div>
 
-          {/* Username Field */}
+          {/* Profile Photo URL Field */}
           <div className="relative">
             <label
-              htmlFor="username"
+              htmlFor="photoURL"
               className="text-sm font-semibold text-gray-700 mb-1 block"
             >
               Profile Photo Link
@@ -175,17 +162,14 @@ const Register = () => {
             <div className="relative">
               <FaPhotoFilm className="absolute top-4 left-3 text-gray-400" />
               <input
-                id="username"
+                id="photoURL"
                 type="text"
                 placeholder="Give Your Profile Link"
-                // { required: "Username is required" }
                 {...register("photoURL")}
                 className="w-full pl-10 border-2 py-3 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
               />
               {errors.photoURL && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.photoURL.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.photoURL.message}</p>
               )}
             </div>
           </div>
@@ -210,6 +194,10 @@ const Register = () => {
                     value: 6,
                     message: "Password must be at least 6 characters long",
                   },
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+                    message: "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+                  },
                 })}
                 className="w-full pl-10 pr-10 border-2 py-3 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
               />
@@ -220,9 +208,7 @@ const Register = () => {
                 {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.password.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
               )}
             </div>
           </div>
@@ -235,7 +221,7 @@ const Register = () => {
             Create Account
           </button>
         </form>
-        <SocialLogin></SocialLogin>
+        <SocialLogin />
         <p className="text-center mt-6">
           Already registered?{" "}
           <Link

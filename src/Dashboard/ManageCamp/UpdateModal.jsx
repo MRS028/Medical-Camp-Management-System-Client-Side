@@ -26,6 +26,15 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
   });
 
   const onSubmit = async (data) => {
+    Swal.fire({
+      title: "Updating...",
+      text: "Please wait while we process your request.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     let imageUrl = camp?.image || null;
 
     if (data.image[0]) {
@@ -43,7 +52,7 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
       participants: parseInt(data.participants, 10),
       campFees: parseFloat(data.fees),
     };
-
+    Swal.close();
     onUpdate(updatedData);
   };
 

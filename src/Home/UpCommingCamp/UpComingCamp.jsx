@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaCalendarAlt, FaLocationArrow, FaHandsHelping, FaUsers, FaMoneyBillWave } from "react-icons/fa";
 import useCamps from "../../Hooks/useCamps";
 import { Link } from "react-router-dom"; // Import Link for routing
+import SectionTitle from "../../Components/SectionTitle/SectionTitle";
 
 const UpcomingComingCamp = () => {
   const [upcomingCamps, setUpcomingCamps] = useState([]);
@@ -34,9 +35,9 @@ const UpcomingComingCamp = () => {
   }
 
   return (
-    <section className="bg-gray-100 py-16">
+    <section className=" py-16">
       <div className="container mx-auto text-center">
-        <h2 className="text-3xl font-bold text-teal-600 mb-8">Upcoming Camps</h2>
+        <h2 className="text-3xl font-bold text-teal-600 mb-8"><SectionTitle heading={"Upcoming Camps"}/></h2>
 
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {upcomingCamps.length > 0 ? (
@@ -48,26 +49,30 @@ const UpcomingComingCamp = () => {
                 <img src={camp.image} alt={camp.name} className="w-full h-48 object-cover mb-4 rounded-lg" />
                 <h4 className="text-xl font-semibold text-teal-600">{camp.name}</h4>
 
-                <div className="mt-2 flex items-center justify-start space-x-4 text-sm text-gray-600">
+                <div className="card-body">
+                <div className="mt-2 flex items-center justify-between space-x-4 text-sm text-gray-600">
                   <div className="flex items-center">
                     <FaCalendarAlt className="mr-1 text-teal-500" />
                     <span>{new Date(camp.dateTime).toLocaleDateString()}</span>
                   </div>
-                  <div className="flex items-center">
-                    <FaLocationArrow className="mr-1 text-teal-500" />
-                    <span>{camp.location}</span>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center mt-4">
                   <div className="flex items-center text-sm text-gray-600">
                     <FaUsers className="mr-1 text-teal-500" />
                     <span>{camp.participants} participants</span>
                   </div>
+                  
+                </div>
+
+                <div className="flex justify-between text-sm items-center mt-4">
+                <div className="flex items-center">
+                    <FaLocationArrow className="mr-1 text-teal-500" />
+                    <span>{camp.location}</span>
+                  </div>
+                  
                   <div className="flex items-center text-sm text-gray-600">
                     <FaMoneyBillWave className="mr-1 text-teal-500" />
                     <span>${camp.campFees}</span>
                   </div>
+                </div>
                 </div>
 
                 <div className="card-action mt-4">
