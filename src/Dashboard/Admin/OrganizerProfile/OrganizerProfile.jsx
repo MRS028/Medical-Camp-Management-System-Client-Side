@@ -8,6 +8,7 @@ import LoadingPage from "../../../Pages/Loading/LoadingPage";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
+import { Helmet } from "react-helmet";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -101,6 +102,13 @@ const OrganizerProfile = () => {
         <>
           {" "}
           <div className="max-w-2xl mx-auto mt-4  p-6 bg-white shadow-md rounded-md">
+            <Helmet>
+              <title>Amin Profile || MCMS</title>
+              <meta
+                name="description"
+                content="This is the home page of my website."
+              />
+            </Helmet>
             <SectionTitle
               heading={"My Profile"}
               subHeading={"Manage your details"}
@@ -154,7 +162,6 @@ const OrganizerProfile = () => {
                       {user?.metadata?.lastSignInTime || "Not Available"}
                     </span>
                   </p>
-                  
                 </div>
 
                 <div className="mt-6 text-center">

@@ -8,7 +8,7 @@ const SectionTitle = ({ heading, subHeading }) => {
           --- {subHeading} ---
         </p>
       )}
-      <h2 className="text-4xl font-bold text-gray-800 uppercase tracking-wider relative inline-block">
+      <h2 className="lg:text-4xl text-2xl font-bold text-gray-800 uppercase tracking-wider relative inline-block">
         {heading}
         <span className="absolute inset-x-0 -bottom-1 h-1  bg-gradient-to-r from-teal-500 to-green-400 rounded-md"></span>
       </h2>

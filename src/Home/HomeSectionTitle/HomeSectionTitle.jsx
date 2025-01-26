@@ -8,7 +8,7 @@ const HomeSectionTitle = ({ title, subtitle }) => {
           --- {subtitle} ---
         </p>
       )}
-      <h1 className="text-3xl md:text-5xl font-bold text-gray-800 uppercase tracking-wide relative inline-block">
+      <h1 className="text-2xl md:text-5xl font-bold text-gray-800 uppercase tracking-wide relative inline-block">
         {title}
         <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 h-1 w-full bg-gradient-to-r from-teal-400 to-green-500 rounded-full"></span>
       </h1>

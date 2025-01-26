@@ -1,12 +1,17 @@
 import React from "react";
 import { FaUsers, FaClipboardCheck, FaCampground, FaChartBar } from "react-icons/fa";
 import useUsers from "../../../Hooks/useUsers";
+import { Helmet } from "react-helmet";
 
 const AdminHome = () => {
   const [users,loading] = useUsers();
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 p-6">
+       <Helmet>
+        <title>Admin Dashboard || MCMS</title>
+        <meta name="description" content="This is the home page of my website." />
+      </Helmet>
       {/* Welcome Banner */}
       <div className="bg-gradient-to-r from-indigo-500 to-purple-500 shadow-lg rounded-lg p-6 mb-8 text-center">
         <h1 className="text-3xl lg:text-4xl font-extrabold text-white">

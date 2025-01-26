@@ -4,6 +4,7 @@ import {
   FaCheckCircle,
   FaDollarSign,
   FaExclamationCircle,
+  FaSearch,
   FaTimesCircle,
 } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
@@ -86,7 +87,7 @@ const RegisteredCamps = () => {
   ).reverse();
 
   return (
-    <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-300 min-h-screen">
+    <div className="lg:p-6 p-2 bg-gradient-to-br  to-gray-300 min-h-screen">
       <SectionTitle
         heading={"Registered Camps"}
         subHeading={"Pay to Confirm your Journey With Us"}
@@ -94,10 +95,11 @@ const RegisteredCamps = () => {
 
       {/* Search or Filter */}
       <div className="mb-6 pt-6 flex justify-center">
+        <FaSearch className="mt-3 mx-3 relative text-gray-500" />
         <input
           type="text"
           placeholder="Search by camp name..."
-          className="px-4 py-2 w-1/2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
+          className="px-4 py-2 w-11/12 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

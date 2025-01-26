@@ -11,9 +11,11 @@ import {
   FaBars,
   FaTimes,
   FaUsers,
+  FaDochub,
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../../Hooks/useAdmin";
+import { Helmet } from "react-helmet";
 
 const DashBoard = () => {
   const [isAdmin] = useAdmin();
@@ -21,6 +23,10 @@ const DashBoard = () => {
 
   return (
     <div className="flex flex-col md:flex-row">
+       <Helmet>
+        <title>Dashboard || MCMS</title>
+        <meta name="description" content="This is the home page of my website." />
+      </Helmet>
       {/* Sidebar */}
       <div
         className={`${
@@ -221,15 +227,15 @@ const DashBoard = () => {
           </li>
           <li>
             <NavLink
-              to="/contact"
+              to="/doctors"
               className={({ isActive }) =>
                 `flex items-center gap-1 p-3 rounded-lg transition ${
                   isActive ? "bg-blue-800 text-yellow-300" : "hover:bg-blue-800 hover:text-yellow-200"
                 }`
               }
             >
-              <FaPhone className="text-base" />
-              Contact
+              <FaDochub className="text-base" />
+              Doctors
             </NavLink>
           </li>
           <li>

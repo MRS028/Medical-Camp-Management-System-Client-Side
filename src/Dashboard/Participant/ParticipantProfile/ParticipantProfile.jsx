@@ -9,6 +9,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -40,7 +41,7 @@ const ParticipantProfile = () => {
       text: "Please wait while we process your request.",
       allowOutsideClick: false,
       didOpen: () => {
-        Swal.showLoading(); 
+        Swal.showLoading();
       },
     });
     let imageUrl = currentUser?.image || null;
@@ -54,7 +55,7 @@ const ParticipantProfile = () => {
       imageUrl = res.data?.data?.display_url;
     }
     // console.log(data.name, imageUrl);
-    updateUserProfile(data?.name,imageUrl )
+    updateUserProfile(data?.name, imageUrl)
       .then(() => {
         console.log("User updatetd");
       })
@@ -71,9 +72,9 @@ const ParticipantProfile = () => {
     Swal.fire({
       title: "Loading...",
       text: "Please wait while we process your request.",
-      allowOutsideClick: false, 
+      allowOutsideClick: false,
       didOpen: () => {
-        Swal.showLoading(); 
+        Swal.showLoading();
       },
     });
     Swal.close();
@@ -88,7 +89,7 @@ const ParticipantProfile = () => {
       `/user/${currentUser._id}`,
       updatedData
     );
-    
+
     if (!res?.data?.modifiedCount) {
       Swal.fire({
         title: "You don't change anything yet!",
@@ -134,6 +135,13 @@ const ParticipantProfile = () => {
         <>
           {" "}
           <div className="max-w-2xl mx-auto mt-16 p-6 bg-white shadow-md rounded-md">
+            <Helmet>
+              <title>User Profile || MCMS</title>
+              <meta
+                name="description"
+                content="This is the home page of my website."
+              />
+            </Helmet>
             <SectionTitle
               heading={"my profile"}
               subHeading={"Enjoy Your Day"}

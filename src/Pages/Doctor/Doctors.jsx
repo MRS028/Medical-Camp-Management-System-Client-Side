@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaStethoscope, FaEnvelope, FaPhone } from "react-icons/fa";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import { p } from "framer-motion/client";
 import SectionTitle from "../../Components/SectionTitle/SectionTitle";
+import LoadingPage from "../Loading/LoadingPage";
+import { Helmet } from "react-helmet";
 
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -25,7 +26,7 @@ const Doctors = () => {
   }, [axiosPublic]);
 
   if (loading) {
-    return <div className="text-center text-xl font-semibold">Loading...</div>;
+    return <LoadingPage/>;
   }
   if(!doctors){
     return <p className="text-red-500 text-center">No Doctor Available</p>
@@ -33,6 +34,10 @@ const Doctors = () => {
 
   return (
     <div className="container mx-auto p-4">
+       <Helmet>
+        <title>Doctor's Info || MCMS</title>
+        <meta name="description" content="This is the home page of my website." />
+      </Helmet>
       <h2 className="text-3xl font-bold text-center mb-6"><SectionTitle heading={"Meet Our Doctors"}></SectionTitle></h2>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {doctors.map((doctor) => (

@@ -3,10 +3,12 @@ import {
   FaCheckCircle,
   FaExclamationCircle,
   FaDollarSign,
+  FaSearch,
 } from "react-icons/fa";
 import useJoinedCamps from "../../../Hooks/useJoinedCamps";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import useScrollToTop from "../../../Hooks/useScrollToTop";
+import { Helmet } from "react-helmet";
 
 const PaymentHistory = () => {
   const [joinedcamps, loading, refetch] = useJoinedCamps();
@@ -22,7 +24,14 @@ const PaymentHistory = () => {
     .reverse();
 
   return (
-    <div className="p-6 bg-gradient-to-r min-h-screen">
+    <div className="p-2 lg:p-6 bg-gradient-to-r min-h-screen">
+      <Helmet>
+        <title>Payment History || MCMS</title>
+        <meta
+          name="description"
+          content="This is the home page of my website."
+        />
+      </Helmet>
       <div className="flex justify-center items-center gap-3 mb-8">
         {/* <FaDollarSign className=" text-4xl" /> */}
 
@@ -33,18 +42,18 @@ const PaymentHistory = () => {
 
         {/* <h1 className="text-3xl font-bold ">Payment History</h1> */}
       </div>
-      <div className="mb-6 pt-5 flex justify-center">
-        {/* <label className="label font-semibold ">Search</label> */}
+      <div className="mb-6 pt-5 flex justify-center relative">
+        <FaSearch className="mt-3 mx-3 relative text-gray-500" />
         <input
           type="text"
           placeholder="Search by camp name..."
-          className="px-4 py-2 w-1/2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-teal-700"
+          className="px-4 py-2 w-11/12 mx-auto rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-teal-700 pl-10"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <div className="bg-white shadow-lg rounded-lg p-6">
+      <div className="bg-white shadow-lg rounded-lg ">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Camp Payment Details
         </h2>

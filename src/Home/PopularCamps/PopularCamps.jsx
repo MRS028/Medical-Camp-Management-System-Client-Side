@@ -27,7 +27,7 @@ const PopularCamps = () => {
         {topCamps.map((camp) => (
           <div
             key={camp._id}
-            className="group bg-white rounded-lg shadow-xl hover:shadow-2xl transform transition-all duration-300 ease-in-out"
+            className="group bg-white rounded-lg shadow-xl hover:shadow-2xl transform transition-all duration-300 ease-in-out hover:scale-105"
           >
             <div className="relative h-48 rounded-t-lg overflow-hidden">
               <img
@@ -38,30 +38,29 @@ const PopularCamps = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black opacity-50 group-hover:opacity-30 transition-all duration-300"></div>
             </div>
             <div className="p-6">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2 transition-all duration-300 ease-in-out group-hover:text-teal-500">
+              <h3 className="text-xl  lg:text-3xl font-semibold text-gray-800 mb-3 transition-all duration-300 ease-in-out group-hover:text-teal-500">
                 {camp.name}
               </h3>
-              <p className="text-sm text-gray-600 mb-1 flex items-center">
-                <FaCalendar className="mr-2 text-teal-500" />{" "}
+              <p className="text-sm text-gray-600 mb-2 flex items-center">
+                <FaCalendar className="mr-2 text-teal-500" />
                 <span className="font-semibold">Date & Time:</span> {camp.dateTime}
               </p>
-              <p className="text-sm text-gray-600 mb-1 flex items-center">
-                <FaMapMarkerAlt className="mr-2 text-red-500" />{" "}
+              <p className="text-sm text-gray-600 mb-2 flex items-center">
+                <FaMapMarkerAlt className="mr-2 text-red-500" />
                 <span className="font-semibold">Location:</span> {camp.location}
               </p>
-              <p className="text-sm text-gray-600 mb-1 flex items-center">
-                <FaUserMd className="mr-2 text-green-500" />{" "}
-                <span className="font-semibold">Healthcare Professional:</span>{" "}
-                {camp.professional}
+              <p className="text-sm text-gray-600 mb-2 flex items-center">
+                <FaUserMd className="mr-2 text-green-500" />
+                <span className="font-semibold">Healthcare Professional:</span> {camp.professional}
               </p>
               <p className="text-sm text-gray-600 mb-4 flex items-center">
-                <FaUsers className="mr-2 text-purple-500" />{" "}
+                <FaUsers className="mr-2 text-purple-500" />
                 <span className="font-semibold">Participants:</span> {camp.participants}
               </p>
               <div className="text-right">
                 <Link
                   to={`/campDetails/${camp._id}`}
-                  className="inline-block text-teal-500 hover:bg-teal-500 hover:text-white border-2 border-teal-500 py-2 px-4 rounded-lg transition-all duration-300 ease-in-out"
+                  className="inline-block text-teal-500 hover:bg-teal-500 hover:text-white border-2 border-teal-500 py-2 px-6 rounded-lg transition-all duration-300 ease-in-out"
                 >
                   Details
                 </Link>

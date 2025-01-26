@@ -6,6 +6,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useScrollToTop from "../../Hooks/useScrollToTop";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -87,6 +88,10 @@ const AddCamp = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md mt-6">
+       <Helmet>
+        <title>Add Camp || MCMS</title>
+        <meta name="description" content="This is the home page of my website." />
+      </Helmet>
       <h1 className="text-2xl lg:text-4xl font-bold text-center mb-6 flex items-center justify-center gap-2 text-green-600">
         <FaCampground /> Add A New Camp
       </h1>

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import SectionTitle from "../../Components/SectionTitle/SectionTitle";
 
 const OurImpact = () => {
   useEffect(() => {
@@ -21,7 +22,7 @@ const OurImpact = () => {
           data-aos="fade-up"
           data-aos-duration="1000"
         >
-          Our Impact
+         <SectionTitle heading={' Our Impact'}></SectionTitle>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {stats.map((stat, index) => (

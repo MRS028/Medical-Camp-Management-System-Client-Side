@@ -12,6 +12,7 @@ import LoadingPage from "../Loading/LoadingPage";
 import { FaMapLocation, FaUserDoctor } from "react-icons/fa6";
 import useScrollToTop from "../../Hooks/useScrollToTop";
 import SectionTitle from "../../Components/SectionTitle/SectionTitle";
+import { Helmet } from "react-helmet";
 
 const AvailableCamps = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,6 +58,10 @@ const AvailableCamps = () => {
 
   return (
     <div className="container mx-auto p-4">
+       <Helmet>
+        <title>Available Camp || MCMS</title>
+        <meta name="description" content="This is the home page of my website." />
+      </Helmet>
       {/* Section Title */}
       <h1 className="text-3xl font-bold text-center mb-6">
         <SectionTitle heading={"Available Camps"} />
