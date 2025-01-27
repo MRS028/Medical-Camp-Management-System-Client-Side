@@ -8,30 +8,40 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useJoinedCamps from "../../../Hooks/useJoinedCamps";
 import useScrollToTop from "../../../Hooks/useScrollToTop";
 import { Link, useNavigate } from "react-router-dom";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import FeedBack from "../Feedback/FeedBack";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import useFeedback from "../../../Hooks/useFeedback";
+import useAuth from "../../../Hooks/useAuth";
 
 const RegisteredCamps = () => {
   const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   useScrollToTop();
+  const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+  const [selectedCamp, setSelectedCamp] = useState(null);
+  
+  
   const navigate = useNavigate();
+  const {user} = useAuth();
+ //console.log(feedbacks);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [JoinedCamps, isError, loading, refetch] = useJoinedCamps();
+  const [JoinedCamps, loading, refetch,isError] = useJoinedCamps();
   //   console.log(JoinedCamps)
-
-  const handlePayment = (camp) => {
-    navigate("/dashboard/payment", { state: { camp } });
-  };
 
   if (loading) {
     return <LoadingPage />;
   }
+  const handlePayment = (camp) => {
+    navigate("/dashboard/payment", { state: { camp } });
+  };
 
   if (isError) {
     return (
@@ -58,14 +68,14 @@ const RegisteredCamps = () => {
     // If confirmed, delete the camp
     if (confirm.isConfirmed) {
       Swal.fire({
-            title: "Loading...",
-            text: "Please wait while we process your request.",
-            allowOutsideClick: false,
-            didOpen: () => {
-              Swal.showLoading();
-            },
-          });
-          
+        title: "Loading...",
+        text: "Please wait while we process your request.",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
       const participantCount = {
         action: "decrement",
       };
@@ -84,14 +94,26 @@ const RegisteredCamps = () => {
       // Check if the camp was deleted successfully
       if (deleteResponse.data.deletedCount > 0) {
         Swal.close();
-        Swal.fire("Deleted!", "The camp has been deleted successfully.", "success");
+        Swal.fire(
+          "Deleted!",
+          "The camp has been deleted successfully.",
+          "success"
+        );
         refetch();
       }
     }
   };
-  const handleFeedback = async (camp)=>{
-    console.log(camp)
-  }
+  const handleFeedback = (camp) => {
+    setSelectedCamp(camp);
+    setShowFeedbackForm(true);
+  };
+  const submitFeedback = async (data) => {
+    // console.log("Feedback Submitted:", data);
+
+    // Handle feedback submission logic here (e.g., API call)
+    const res = await axiosPublic.post("/feedback", data);
+    // console.log(res.data)
+  };
 
   const filteredCamps = JoinedCamps.filter(
     (camp) =>
@@ -201,17 +223,18 @@ const RegisteredCamps = () => {
                 </td>
                 {/* Feedback row */}
                 <td className="px-6 py-4  gap-4">
-                  {camp.feedback ? (
-                    <button
-                    onClick={() => handleFeedback(camp)}
-                      className="bg-gradient-to-r from-teal-500 to-green-400 text-white px-4 py-2 rounded  flex items-center"
-                      data-tooltip-id="feedback-tooltip"
-                      data-tooltip-content="Give your feedback"
-                    >
-                      <FaCheckCircle className="mr-2" /> Feedback
-                    </button>
-                  ) : (
-                    <span className="text-gray-400">N/A</span>
+                  { camp.confirmationStatus === 'Confirmed' ? (
+                        <button
+                        onClick={() => handleFeedback(camp)}
+                        className="bg-gradient-to-r from-teal-500 to-green-400 text-white px-4 py-2 rounded  flex items-center"
+                        data-tooltip-id="feedback-tooltip"
+                        data-tooltip-content="Give your feedback"
+                      >
+                        <FaCheckCircle className="mr-2" /> Feedback
+                      </button>
+                       ) : (
+                        <span className="text-gray-400"  data-tooltip-id="feedback2-tooltip"
+                        data-tooltip-content="You Can Give feedback after Confirmation">N/A</span>
                   )}
                 </td>
               </tr>
@@ -220,7 +243,6 @@ const RegisteredCamps = () => {
         </table>
         {JoinedCamps?.length === 0 ? (
           <div className="text-center m-6 text-red-600">
-           
             No registered camps found for this user.
           </div>
         ) : (
@@ -231,6 +253,17 @@ const RegisteredCamps = () => {
       <Tooltip id="payment-tooltip" />
       <Tooltip id="cancel-tooltip" />
       <Tooltip id="feedback-tooltip" />
+      <Tooltip id="feedback2-tooltip" />
+      {showFeedbackForm && selectedCamp && (
+        <>
+          {/* {console.log("Selected Camp:", selectedCamp)} */}
+          <FeedBack
+            camp={selectedCamp}
+            onClose={() => setShowFeedbackForm(false)}
+            onSubmit={submitFeedback}
+          />
+        </>
+      )}
     </div>
   );
 };

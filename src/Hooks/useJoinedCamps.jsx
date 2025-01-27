@@ -1,18 +1,16 @@
 import React from "react";
-import useAxiosPublic from "./useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "./useAxiosSecure";
 import useAuth from "./useAuth";
 
 const useJoinedCamps = () => {
-  const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const {
     data: JoinedCamps = [],
     isLoading: loading,
     refetch,
-    isError
+    isError,
   } = useQuery({
     queryKey: ["joinedcamps"],
     queryFn: async () => {
@@ -21,7 +19,7 @@ const useJoinedCamps = () => {
       return res.data;
     },
   });
-  return [JoinedCamps, loading,isError, refetch];
+  return [JoinedCamps, loading, refetch, isError];
 };
 
 export default useJoinedCamps;
