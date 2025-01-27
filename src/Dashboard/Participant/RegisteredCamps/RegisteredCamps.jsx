@@ -57,6 +57,15 @@ const RegisteredCamps = () => {
 
     // If confirmed, delete the camp
     if (confirm.isConfirmed) {
+      Swal.fire({
+            title: "Loading...",
+            text: "Please wait while we process your request.",
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
+          
       const participantCount = {
         action: "decrement",
       };
@@ -70,15 +79,19 @@ const RegisteredCamps = () => {
       const deleteResponse = await axiosSecure.delete(
         `/delete-joined-camp/${camp._id}`
       );
-      console.log("Delete Response:", deleteResponse.data);
+      // console.log("Delete Response:", deleteResponse.data);
 
       // Check if the camp was deleted successfully
       if (deleteResponse.data.deletedCount > 0) {
-        Swal.fire("Deleted!", "The camp has been deleted.", "success");
+        Swal.close();
+        Swal.fire("Deleted!", "The camp has been deleted successfully.", "success");
         refetch();
       }
     }
   };
+  const handleFeedback = async (camp)=>{
+    console.log(camp)
+  }
 
   const filteredCamps = JoinedCamps.filter(
     (camp) =>
@@ -190,6 +203,7 @@ const RegisteredCamps = () => {
                 <td className="px-6 py-4  gap-4">
                   {camp.feedback ? (
                     <button
+                    onClick={() => handleFeedback(camp)}
                       className="bg-gradient-to-r from-teal-500 to-green-400 text-white px-4 py-2 rounded  flex items-center"
                       data-tooltip-id="feedback-tooltip"
                       data-tooltip-content="Give your feedback"
@@ -204,8 +218,9 @@ const RegisteredCamps = () => {
             ))}
           </tbody>
         </table>
-        {JoinedCamps.length === 0 ? (
+        {JoinedCamps?.length === 0 ? (
           <div className="text-center m-6 text-red-600">
+           
             No registered camps found for this user.
           </div>
         ) : (

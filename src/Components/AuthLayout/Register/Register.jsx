@@ -84,7 +84,7 @@ const Register = () => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen px-4 py-8">
       {/* Left Section with Lottie Animation */}
-      <div className="md:w-1/2 items-center justify-center mb-8 md:mb-0">
+      <div className="md:w-1/2 hidden lg:block items-center justify-center mb-8 md:mb-0">
         <h2 className="lg:text-5xl text-2xl font-extrabold mb-4 text-center">
           Welcome to MediCamp
         </h2>

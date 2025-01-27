@@ -1,16 +1,28 @@
 import React from "react";
-import { FaUsers, FaClipboardCheck, FaCampground, FaChartBar } from "react-icons/fa";
+import {
+  FaUsers,
+  FaClipboardCheck,
+  FaCampground,
+  FaChartBar,
+} from "react-icons/fa";
 import useUsers from "../../../Hooks/useUsers";
 import { Helmet } from "react-helmet";
+import useCamps from "../../../Hooks/useCamps";
+import useJoinedCamps from "../../../Hooks/useJoinedCamps";
 
 const AdminHome = () => {
-  const [users,loading] = useUsers();
+  const [users, loading] = useUsers();
+  const [camps] = useCamps();
+  const [JoinedCamps] = useJoinedCamps();
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 p-6">
-       <Helmet>
+      <Helmet>
         <title>Admin Dashboard || MCMS</title>
-        <meta name="description" content="This is the home page of my website." />
+        <meta
+          name="description"
+          content="This is the home page of my website."
+        />
       </Helmet>
       {/* Welcome Banner */}
       <div className="bg-gradient-to-r from-indigo-500 to-purple-500 shadow-lg rounded-lg p-6 mb-8 text-center">
@@ -28,19 +40,25 @@ const AdminHome = () => {
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-indigo-500">
           <FaUsers className="text-4xl text-indigo-500 mx-auto" />
           <h2 className="text-xl font-bold text-gray-800 mt-2">Total Users</h2>
-          <p className="text-3xl font-extrabold text-indigo-500 mt-2">1,245</p>
+          <p className="text-3xl font-extrabold text-indigo-500 mt-2">
+            {users?.length}
+          </p>
         </div>
         {/* Stat Card 2 */}
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-purple-500">
           <FaCampground className="text-4xl text-purple-500 mx-auto" />
           <h2 className="text-xl font-bold text-gray-800 mt-2">Active Camps</h2>
-          <p className="text-3xl font-extrabold text-purple-500 mt-2">35</p>
+          <p className="text-3xl font-extrabold text-purple-500 mt-2">
+            {camps?.length}
+          </p>
         </div>
         {/* Stat Card 3 */}
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-green-500">
           <FaClipboardCheck className="text-4xl text-green-500 mx-auto" />
-          <h2 className="text-xl font-bold text-gray-800 mt-2">Completed Tasks</h2>
-          <p className="text-3xl font-extrabold text-green-500 mt-2">567</p>
+          <h2 className="text-xl font-bold text-gray-800 mt-2">
+            Joined Camps
+          </h2>
+          <p className="text-3xl font-extrabold text-green-500 mt-2">{JoinedCamps?.length}</p>
         </div>
         {/* Stat Card 4 */}
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-yellow-500">
@@ -52,7 +70,9 @@ const AdminHome = () => {
 
       {/* Recent Activities Section */}
       <div className="bg-white shadow-lg rounded-lg p-6 mt-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Recent Activities</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          Recent Activities
+        </h2>
         <ul className="space-y-4">
           <li className="flex justify-between items-center p-4 bg-gray-50 rounded-md shadow-sm">
             <span className="text-gray-800 font-medium">

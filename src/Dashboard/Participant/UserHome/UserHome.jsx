@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typewriter } from "react-simple-typewriter";
 import useAuth from "../../../Hooks/useAuth";
+import useCamps from "../../../Hooks/useCamps";
+import useJoinedCamps from "../../../Hooks/useJoinedCamps";
+import LoadingPage from "../../../Pages/Loading/LoadingPage";
 
 const UserHome = () => {
   const { user } = useAuth();
+  const [camps] = useCamps();
+  const [JoinedCamps,loading] = useJoinedCamps();
+ if(loading){
+  return <LoadingPage/>
+ }
+
+  
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 p-6 ">
       {/* Welcome Banner */}
@@ -31,22 +41,22 @@ const UserHome = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Stat Card 1 */}
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-green-400">
-          <h2 className="text-xl font-bold text-gray-800">Upcoming Camps</h2>
-          <p className="text-4xl font-extrabold text-teal-500 mt-2">15</p>
+          <h2 className="text-xl font-bold text-gray-800">Total Camps</h2>
+          <p className="text-4xl font-extrabold text-teal-500 mt-2">{camps?.length}</p>
         </div>
         {/* Stat Card 2 */}
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-teal-500">
           <h2 className="text-xl font-bold text-gray-800">
-            Completed Sessions
+           My Joined Camps
           </h2>
-          <p className="text-4xl font-extrabold text-green-500 mt-2">32</p>
+          <p className="text-4xl font-extrabold text-green-500 mt-2">{JoinedCamps?.length}</p>
         </div>
         {/* Stat Card 3 */}
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-yellow-400">
           <h2 className="text-xl font-bold text-gray-800">
             Pending Registrations
           </h2>
-          <p className="text-4xl font-extrabold text-yellow-500 mt-2">5</p>
+          <p className="text-4xl font-extrabold text-yellow-500 mt-2">0</p>
         </div>
       </div>
 
@@ -79,7 +89,7 @@ const UserHome = () => {
       </div>
 
       {/* Footer */}
-      <footer className="mt-auto text-center text-gray-600 text-sm">
+      <footer className="mt-auto pt-5 text-center text-gray-600 text-sm">
         © {new Date().getFullYear()} MediCamp. All rights reserved.
       </footer>
     </div>

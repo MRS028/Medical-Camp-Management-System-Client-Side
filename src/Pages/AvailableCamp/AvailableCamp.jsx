@@ -5,6 +5,7 @@ import {
   FaColumns,
   FaUsers,
   FaCalendar,
+  FaDollarSign,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useCamps from "../../Hooks/useCamps";
@@ -154,6 +155,11 @@ const AvailableCamps = () => {
                 <FaUsers className="inline-block text-purple-500" />{" "}
                 <span className="font-semibold">Participants:</span>{" "}
                 {camp.participants}
+              </p>
+              <p className="text-sm">
+                <FaDollarSign className="inline-block text-red-500" />{" "}
+                <span className="font-semibold">Camp Fees:</span>{" "}
+                {camp.campFees} $
               </p>
               <div className="card-actions justify-end">
                 <Link

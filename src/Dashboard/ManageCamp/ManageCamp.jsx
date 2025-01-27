@@ -82,6 +82,7 @@ const ManageCamp = () => {
       setSelectedCamp(null);
     }
   };
+
   const filteredCamps = camps
     .filter(
       (camp) =>

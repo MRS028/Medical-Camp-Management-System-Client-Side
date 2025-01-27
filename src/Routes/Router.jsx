@@ -22,6 +22,8 @@ import AdminHome from "../Dashboard/Admin/AdminHome/AdminHome";
 import UserHome from "../Dashboard/Participant/UserHome/UserHome";
 import Home from "../Home/Home/Home";
 import Doctors from "../Pages/Doctor/Doctors";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import ForgotPassword from "../Components/AuthLayout/ForgetPassword/ForgotPassword";
 
 const Router = createBrowserRouter([
   {
@@ -60,6 +62,10 @@ const Router = createBrowserRouter([
           {
             path: "/auth/register",
             element: <Register></Register>,
+          },
+          {
+            path: "/auth/forgot-password",
+            element: <ForgotPassword/> ,
           },
         ],
       },
@@ -148,7 +154,7 @@ const Router = createBrowserRouter([
   },
   {
     path: "/*",
-    element: <div>Error</div>,
+    element: <ErrorPage/>,
   },
 ]);
 export default Router;

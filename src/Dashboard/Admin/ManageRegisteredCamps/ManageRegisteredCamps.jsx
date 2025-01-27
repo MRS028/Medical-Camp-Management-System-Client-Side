@@ -5,6 +5,7 @@ import {
   FaDollarSign,
   FaExclamationCircle,
   FaTimesCircle,
+  FaTrash,
 } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
@@ -18,12 +19,12 @@ const ManageRegisteredCamps = () => {
   const [searchTerm, setSearchTerm] = useState("");
   useScrollToTop();
   const {
-    data: camps = [],
+    data: registeredCamps = [],
     isLoading,
     isError,
     refetch,
   } = useQuery({
-    queryKey: ["camps"],
+    queryKey: ["registeredCamps"],
     queryFn: async () => {
       const res = await axiosSecure.get("/registeredCamps");
       //   console.log("API Response:", res.data);
@@ -31,7 +32,7 @@ const ManageRegisteredCamps = () => {
     },
   });
   const handleCancel = async (camp) => {
-    console.log(camp);
+    // console.log(camp);
     // console.log(camp);
     Swal.fire({
       title: "Are you sure?",
@@ -47,6 +48,14 @@ const ManageRegisteredCamps = () => {
         const canceledData = {
           confirmationStatus: "Canceled",
         };
+        Swal.fire({
+          title: "Loading...",
+          text: "Please wait while we process your request.",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
 
         const res = await axiosSecure.patch(
           `/confirmedCamp/${camp._id}`,
@@ -64,9 +73,10 @@ const ManageRegisteredCamps = () => {
             `/participant-count/${camp.campId}`,
             participantCount
           );
+          Swal.close();
 
           Swal.fire({
-            icon: "error",
+            icon: "success",
             title: "Canceled",
             text: "The camp has been successfully canceled.",
             timer: 2000,
@@ -78,22 +88,104 @@ const ManageRegisteredCamps = () => {
   };
 
   const handleConfirm = async (id) => {
-    // console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to Confirm this camp?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#009688",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Confirm it",
+      cancelButtonText: "No, keep it",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Loading...",
+          text: "Please wait while we process your request.",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
 
-    const confirmData = {
-      confirmationStatus: "Confirmed",
-    };
-    const res = await axiosSecure.patch(`/confirmedCamp/${id}`, confirmData);
-    refetch();
-    if (res?.data?.modifiedCount > 0) {
-      console.log("payment updated", res.data);
+        const confirmData = {
+          confirmationStatus: "Confirmed",
+        };
+        const res = await axiosSecure.patch(
+          `/confirmedCamp/${id}`,
+          confirmData
+        );
+        refetch();
+
+        if (res?.data?.modifiedCount > 0) {
+          // console.log("payment updated", res.data);
+          Swal.close();
+          Swal.fire({
+            icon: "success",
+            title: "Status Updated",
+            text: "Joining Camp Confirmed",
+            timer: 2000,
+            showConfirmButton: true,
+            confirmButtonColor: "#009688",
+          });
+        }
+      }
+    });
+
+    // console.log(id);
+  };
+
+  const handleDelete = async (camp) => {
+    // console.log(camp);
+    // console.log("CampId:", camp.campId);
+
+    // Confirmation before deletion
+    const confirm = await Swal.fire({
+      title: "Are you sure to delete this camp?",
+      text: "Once you delete it, it cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#1bb1b1",
+      confirmButtonText: "Yes, Delete it!",
+    });
+
+    // If confirmed, delete the camp
+    if (confirm.isConfirmed) {
       Swal.fire({
-        icon: "success",
-        title: "Status Updated",
-        text: "Joining Camp Confirmed",
-        timer: 2000,
-        showConfirmButton: true,
+        title: "Loading...",
+        text: "Please wait while we process your request.",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
       });
+
+      const participantCount = {
+        action: "decrement",
+      };
+
+      // Update participant count
+      const result = await axiosSecure.patch(
+        `/participant-count/${camp.campId}`,
+        participantCount
+      );
+      // console.log("Decrement Response:", result.data);
+      const deleteResponse = await axiosSecure.delete(
+        `/delete-joined-camp/${camp._id}`
+      );
+      // console.log("Delete Response:", deleteResponse.data);
+
+      // Check if the camp was deleted successfully
+      if (deleteResponse.data.deletedCount > 0) {
+        refetch();
+        Swal.close();
+        Swal.fire(
+          "Deleted!",
+          "The camp has been deleted successfully.",
+          "success"
+        );
+      }
     }
   };
   if (isLoading) {
@@ -101,7 +193,7 @@ const ManageRegisteredCamps = () => {
   }
 
   // Filter camps based on the search term
-  const filteredCamps = camps
+  const filteredCamps = registeredCamps
     .filter(
       (camp) =>
         camp.campName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -111,14 +203,13 @@ const ManageRegisteredCamps = () => {
     .reverse();
 
   return (
-    <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-300 min-h-screen">
-      <SectionTitle
-        heading={"Join Camp Request"}
-        subHeading={"Register to get Efficient Services"}
-      ></SectionTitle>
-      {/* <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-        Registered Camps
-      </h1> */}
+    <div className="p-2 ">
+      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        <SectionTitle
+          heading={`Joined camps (${registeredCamps?.length})`}
+          subHeading={"Register to get Efficient Services"}
+        ></SectionTitle>
+      </h1>
 
       {/* Search or Filter */}
       <div className="mb-6 flex justify-center">
@@ -132,7 +223,7 @@ const ManageRegisteredCamps = () => {
       </div>
 
       <div className="overflow-x-auto shadow-xl rounded-lg">
-        <table className="table-auto w-full bg-white border border-gray-200 rounded-lg">
+        <table className="table-auto  bg-white  mx-auto  border border-gray-200 rounded-lg">
           <thead>
             <tr className="bg-gray-800 text-white">
               <th className="px-6 py-3 text-center">#</th>
@@ -146,6 +237,7 @@ const ManageRegisteredCamps = () => {
               <th className="px-6 py-3 text-center">
                 Cancel <br /> Status
               </th>
+
               {/* <th className="px-6 py-3 text-center">Feedback <br /> Status</th> */}
             </tr>
           </thead>
@@ -213,7 +305,7 @@ const ManageRegisteredCamps = () => {
                     <FaCheckCircle className="mr-2" /> Confirm
                   </button>
                 </td>
-                <td className="px-6 py-4  gap-4">
+                <td className="px-6 py-4 mt-2 gap-2 ">
                   <button
                     onClick={() => handleCancel(camp)}
                     className={`${
@@ -229,7 +321,15 @@ const ManageRegisteredCamps = () => {
                     data-tooltip-id="cancel-tooltip"
                     data-tooltip-content="Cancel registration"
                   >
-                    <FaTimesCircle className="mr-2" /> Cancel
+                    <FaTimesCircle size={22} className="mr-1" /> Cancel
+                  </button>
+                  <button
+                    onClick={() => handleDelete(camp)}
+                    className="bg-red-500 mt-2 text-white px-4 py-2 rounded hover:bg-red-700 flex items-center"
+                    data-tooltip-id="delete-tooltip"
+                    data-tooltip-content="Delete This"
+                  >
+                    <FaTrash size={22} className="mr-1" /> Delete
                   </button>
                 </td>
                 {/* <td className="px-6 py-4  gap-4">
@@ -249,7 +349,7 @@ const ManageRegisteredCamps = () => {
             ))}
           </tbody>
         </table>
-        {camps.length === 0 ? (
+        {registeredCamps.length === 0 ? (
           <div className="text-center m-6 text-red-600">
             No registered camps found for this user.
           </div>
@@ -260,7 +360,7 @@ const ManageRegisteredCamps = () => {
 
       <Tooltip id="payment-tooltip" />
       <Tooltip id="cancel-tooltip" />
-      <Tooltip id="feedback-tooltip" />
+      <Tooltip id="delete-tooltip" />
       <Tooltip id="confirm-tooltip" />
     </div>
   );
