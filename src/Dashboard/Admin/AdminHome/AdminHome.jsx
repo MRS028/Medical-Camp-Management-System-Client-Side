@@ -8,12 +8,18 @@ import {
 import useUsers from "../../../Hooks/useUsers";
 import { Helmet } from "react-helmet";
 import useCamps from "../../../Hooks/useCamps";
-import useJoinedCamps from "../../../Hooks/useJoinedCamps";
+import LoadingPage from "../../../Pages/Loading/LoadingPage";
+import useregisteredCamps from "../../../Hooks/useRegisteredCamps";
 
 const AdminHome = () => {
   const [users, loading] = useUsers();
   const [camps] = useCamps();
-  const [JoinedCamps] = useJoinedCamps();
+  const [registeredCamps, isError, refetch] = useregisteredCamps();
+
+  // Loading state
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 p-6">
@@ -21,9 +27,10 @@ const AdminHome = () => {
         <title>Admin Dashboard || MCMS</title>
         <meta
           name="description"
-          content="This is the home page of my website."
+          content="Admin Dashboard for managing camps and users."
         />
       </Helmet>
+
       {/* Welcome Banner */}
       <div className="bg-gradient-to-r from-indigo-500 to-purple-500 shadow-lg rounded-lg p-6 mb-8 text-center">
         <h1 className="text-3xl lg:text-4xl font-extrabold text-white">
@@ -55,10 +62,10 @@ const AdminHome = () => {
         {/* Stat Card 3 */}
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-green-500">
           <FaClipboardCheck className="text-4xl text-green-500 mx-auto" />
-          <h2 className="text-xl font-bold text-gray-800 mt-2">
-            Joined Camps
-          </h2>
-          <p className="text-3xl font-extrabold text-green-500 mt-2">{JoinedCamps?.length}</p>
+          <h2 className="text-xl font-bold text-gray-800 mt-2">Users Joined Camps</h2>
+          <p className="text-3xl font-extrabold text-green-500 mt-2">
+            {registeredCamps?.length}
+          </p>
         </div>
         {/* Stat Card 4 */}
         <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-yellow-500">
@@ -70,9 +77,7 @@ const AdminHome = () => {
 
       {/* Recent Activities Section */}
       <div className="bg-white shadow-lg rounded-lg p-6 mt-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          Recent Activities
-        </h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Recent Activities</h2>
         <ul className="space-y-4">
           <li className="flex justify-between items-center p-4 bg-gray-50 rounded-md shadow-sm">
             <span className="text-gray-800 font-medium">

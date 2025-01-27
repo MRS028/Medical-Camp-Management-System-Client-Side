@@ -112,6 +112,7 @@ const RegisteredCamps = () => {
 
     // Handle feedback submission logic here (e.g., API call)
     const res = await axiosPublic.post("/feedback", data);
+    // 
     // console.log(res.data)
   };
 

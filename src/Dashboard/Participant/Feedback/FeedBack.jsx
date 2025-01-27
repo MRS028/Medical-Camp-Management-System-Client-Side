@@ -3,43 +3,56 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/useAuth";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
-import { FaStar } from "react-icons/fa";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const FeedBack = ({ camp, onClose, onSubmit }) => {
   const { user } = useAuth();
-//   console.log(camp._id)
+  const axiosSecure = useAxiosSecure()
+  //   console.log(camp._id)
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const submitFeedback = (data) => {
+  const submitFeedback = async (data) => {
     const feedbackInfo = {
-        ...data,
-        rating : parseFloat(data.rating),
-        JoinedcampID: camp?._id,
-        mainCampID: camp?.campId,
-        campName: camp?.campName,
-        image : user?.photoURL,
-        location: camp.location
-      };
-      onSubmit(feedbackInfo);
+      ...data,
+      rating: parseFloat(data.rating),
+      JoinedcampID: camp?._id,
+      mainCampID: camp?.campId,
+      campName: camp?.campName,
+      image: user?.photoURL,
+      location: camp.location,
+    };
+
+    //TO It will be fixed later
+    
+    // const feedbackData = {
+    //   feedback: true,
+    // };
+    // const joinedCampres = await axiosSecure.patch(
+    //   `/join-camp/${camp._id}`,
+    //   feedbackData
+    // );
+    // console.log(joinedCampres.data);
+    onSubmit(feedbackInfo);
     onClose();
     Swal.fire({
-        title: "Success!",
-        text: "Feedback submitted successfully.",
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      title: "Success!",
+      text: "Feedback submitted successfully.",
+      icon: "success",
+      timer: 2000,
+      timerProgressBar: true,
+    });
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-lg">
-        <h2 className="text-2xl font-bold  text-center mb-4"> <span className="border-b-teal-500 border-b-4 ">Feedback Form</span>
-
+        <h2 className="text-2xl font-bold  text-center mb-4">
+          {" "}
+          <span className="border-b-teal-500 border-b-4 ">Feedback Form</span>
         </h2>
         <form onSubmit={handleSubmit(submitFeedback)}>
           {/* Name */}
@@ -64,7 +77,7 @@ const FeedBack = ({ camp, onClose, onSubmit }) => {
           {/* Email */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
-            Participant's  Email
+              Participant's Email
             </label>
             <input
               type="email"

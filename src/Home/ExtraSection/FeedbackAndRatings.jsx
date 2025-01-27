@@ -19,7 +19,7 @@ const FeedbackAndRatings = () => {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {latestFeedbacks.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="p-6 bg-white shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300"
             >
               <div className="flex items-center mb-4">

@@ -55,6 +55,7 @@ const ManageCamp = () => {
   const handleUpdate = async (id, updatedData) => {
     const res = await axiosSecure.patch(`/camp/${id}`, updatedData);
     if (!res.data.modifiedCount) {
+      Swal.close();
       Swal.fire({
         title: "You don't change anything yet!",
         text: "If You want then make updates.",
@@ -70,6 +71,7 @@ const ManageCamp = () => {
           camp._id === id ? { ...camp, ...updatedData } : camp
         )
       );
+      Swal.close();
       Swal.fire({
         title: "Updated!",
         text: "The camp has been updated successfully.",

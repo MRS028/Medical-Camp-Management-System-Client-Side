@@ -17,7 +17,7 @@ const Register = () => {
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   useScrollToTop();
-  
+
   // form-hook
   const {
     register,
@@ -25,9 +25,12 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  
+
   // form-submission
   const onSubmit = (data) => {
+    // Check for errors
+
+    // Proceed with the registration process
     Swal.fire({
       title: "Loading...",
       text: "Please wait while we process your request.",
@@ -36,39 +39,69 @@ const Register = () => {
         Swal.showLoading();
       },
     });
-    createUser(data.email, data.password).then((result) => {
-      const loggedUser = result.user;
-      
-      updateUserProfile(data?.name, data?.photoURL)
-        .then(() => {
-          const userInfo = {
-            name: data.name,
-            email: data.email,
-            photoURL: data.photoURL,
-            role: "user",
-            created: new Date(),
-          };
 
-          axiosPublic
-            .post("/users", userInfo)
-            .then((res) => {
-              Swal.close();
-              if (res.data.insertedId) {
-                reset();
+    createUser(data.email, data.password)
+      .then((result) => {
+        const loggedUser = result.user;
+
+        updateUserProfile(data?.name, data?.photoURL)
+          .then(() => {
+            const userInfo = {
+              name: data.name,
+              email: data.email,
+              photoURL: data.photoURL,
+              role: "user",
+              created: new Date(),
+            };
+
+            axiosPublic
+              .post("/users", userInfo)
+              .then((res) => {
+                Swal.close();
+                if (res.data.insertedId) {
+                  reset();
+                  Swal.fire({
+                    title: "Sign Up Successful",
+                    text: "Assalamuwalaikum, Welcome to our MediCamp",
+                    icon: "success",
+                    timer: 1500,
+                  });
+
+                  navigate("/");
+                }
+              })
+              .catch((err) => {
+                // console.log(err);
+                Swal.close();
                 Swal.fire({
-                  title: "Sign Up Successful",
-                  text: "Assalamuwalaikum, Welcome to our MediCamp",
-                  icon: "success",
-                  timer: 1500,
+                  title: "An Error Occurred",
+                  text:
+                    err.message ||
+                    "Something went wrong. Please try again later.",
+                  icon: "error",
                 });
-
-                navigate("/");
-              }
-            })
-            .catch((err) => console.log(err));
-        })
-        .catch((err) => console.log(err));
-    });
+              });
+          })
+          .catch((err) => {
+            // console.log(err);
+            Swal.close();
+            Swal.fire({
+              title: "An Error Occurred",
+              text:
+                err.message || "Something went wrong. Please try again later.",
+              icon: "error",
+            });
+          });
+      })
+      .catch((err) => {
+        // console.log(err);
+        Swal.close();
+        Swal.fire({
+          title: "An Error Occurred",
+          text: err.message || "Something went wrong. Please try again later.",
+          icon: "error",
+        });
+      });
   };
 
   // Lottie animation
@@ -97,7 +130,7 @@ const Register = () => {
       {/* Right Section with Registration Form */}
       <div className="md:w-[40%] bg-white bg-opacity-10 p-8 rounded-2xl shadow-2xl duration-300">
         <h2 className="text-4xl font-extrabold mb-4 text-center">Register</h2>
-        
+
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
           {/* Name Field */}
           <div className="relative">
@@ -117,7 +150,9 @@ const Register = () => {
                 className="w-full pl-10 py-3 border-2 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
               />
               {errors.name && (
-                <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.name.message}
+                </p>
               )}
             </div>
           </div>
@@ -146,7 +181,9 @@ const Register = () => {
                 className="w-full pl-10 py-3 border-2 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
               )}
             </div>
           </div>
@@ -169,7 +206,9 @@ const Register = () => {
                 className="w-full pl-10 border-2 py-3 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
               />
               {errors.photoURL && (
-                <p className="text-red-500 text-sm mt-1">{errors.photoURL.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.photoURL.message}
+                </p>
               )}
             </div>
           </div>
@@ -196,7 +235,8 @@ const Register = () => {
                   },
                   pattern: {
                     value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-                    message: "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+                    message:
+                      "Password must contain at least one uppercase letter, one lowercase letter, and one number",
                   },
                 })}
                 className="w-full pl-10 pr-10 border-2 py-3 rounded-lg bg-opacity-20 bg-white outline-none focus:ring-2 focus:ring-teal-300"
@@ -208,7 +248,9 @@ const Register = () => {
                 {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
               )}
             </div>
           </div>

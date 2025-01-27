@@ -69,15 +69,6 @@ const ParticipantProfile = () => {
       photoURL: imageUrl || currentUser.photoURL,
     };
     saveProfile(updatedData);
-    Swal.fire({
-      title: "Loading...",
-      text: "Please wait while we process your request.",
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    Swal.close();
 
     // console.log(updatedData);
   };
@@ -89,8 +80,10 @@ const ParticipantProfile = () => {
       `/user/${currentUser._id}`,
       updatedData
     );
+    
 
     if (!res?.data?.modifiedCount) {
+      Swal.close();
       Swal.fire({
         title: "You don't change anything yet!",
         text: "If You want then make updates.",
@@ -108,8 +101,9 @@ const ParticipantProfile = () => {
         )
       );
       refetch();
-      Swal.close();
+      
       setIsEditing(false);
+      Swal.close();
       Swal.fire({
         title: "Updated!",
         text: "Profile has been updated successfully.",

@@ -50,7 +50,7 @@ const Login = () => {
   return (
     <div className="flex flex-col lg:flex-row md:flex-row">
       {/* Left Section */}
-      <div className="md:w-1/2 hidden lg:block lg:w-1/2 bg-teal-800 flex items-center justify-center p-6">
+      <div className="md:w-1/2 hidden lg:w-1/2 bg-teal-800 lg:flex items-center justify-center p-6">
         <div className="text-center ">
           <h2 className="text-white text-2xl lg:text-5xl font-bold">
             Welcome to MediCamp

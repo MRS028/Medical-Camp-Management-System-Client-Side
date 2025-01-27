@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import SectionTitle from "../../Components/SectionTitle/SectionTitle";
+import useScrollToTop from "../../Hooks/useScrollToTop";
 
 const JoinCampModal = ({ camp, onClose, onRegister }) => {
   const { user } = useAuth();
@@ -13,6 +14,7 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  useScrollToTop()
 
   const {
     register,
@@ -76,11 +78,12 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
             Swal.showLoading();
           },
         });
-        Swal.close();
+        
 
         axiosPublic
           .post("/join-camps", registrationData)
           .then(() => {
+            Swal.close();
             Swal.fire({
               icon: "success",
               title: "Registration Successful!",
@@ -92,7 +95,8 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
             navigate("/dashboard/registeredCamps");
           })
           .catch((err) => {
-            console.error(err);
+            // console.error(err);
+            Swal.close();
             Swal.fire({
               icon: "error",
               title: "Registration Failed",

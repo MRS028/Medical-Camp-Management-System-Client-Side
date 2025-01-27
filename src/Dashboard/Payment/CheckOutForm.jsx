@@ -89,7 +89,7 @@ const CheckOutForm = ({ camp }) => {
         date: new Date(),
         transactionId: paymentIntent.id,
         // campId : camp.campId,
-        feedback: true,
+        feedback: false,
         confirmationStatus: "Pending",
         paymentStatus: "Paid",
       };
@@ -120,6 +120,7 @@ const CheckOutForm = ({ camp }) => {
         `,
         icon: "success",
         confirmButtonText: "OK",
+        confirmButtonColor: "#38b2ac",
         didRender: () => {
           // Add copy functionality
           const copyButton = document.getElementById("copyButton");

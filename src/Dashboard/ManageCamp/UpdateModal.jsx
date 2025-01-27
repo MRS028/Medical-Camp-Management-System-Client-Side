@@ -52,7 +52,7 @@ const UpdateModal = ({ camp, onUpdate, onClose }) => {
       participants: parseInt(data.participants, 10),
       campFees: parseFloat(data.fees),
     };
-    Swal.close();
+    
     onUpdate(updatedData);
   };
 

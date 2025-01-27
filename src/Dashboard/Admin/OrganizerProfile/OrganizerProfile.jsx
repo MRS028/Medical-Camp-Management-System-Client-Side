@@ -34,6 +34,14 @@ const OrganizerProfile = () => {
   }, [users, user.email]);
 
   const handleUpdate = async (data) => {
+    Swal.fire({
+          title: "Loading...",
+          text: "Please wait while we process your request.",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
     let imageUrl = currentUser?.image || null;
 
     if (data.image && data.image[0]) {
@@ -66,6 +74,7 @@ const OrganizerProfile = () => {
       updatedData
     );
     if (!res?.data?.modifiedCount) {
+      Swal.close();
       Swal.fire({
         title: "No changes detected!",
         text: "Make updates to save your profile.",
@@ -82,6 +91,7 @@ const OrganizerProfile = () => {
       );
       refetch();
       setIsEditing(false);
+      Swal.close();
       Swal.fire({
         title: "Updated!",
         text: "Profile updated successfully.",
