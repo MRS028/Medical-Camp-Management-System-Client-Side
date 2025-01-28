@@ -5,12 +5,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import useUsers from "../../../Hooks/useUsers";
 
 const SocialLogin = () => {
   const { googleSignIn } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const location = useLocation();
+  // const [users,loading] = useUsers();
   const from = location.state?.from?.pathname || "/";
 
   const handleGoogleSignIn = () => {
@@ -35,6 +37,13 @@ const SocialLogin = () => {
               showConfirmButton: true,
               timer: 1500,
             });
+            // const isAdmin = users.some(
+            //   (u) => u.email === user.email && u.role === "admin"
+            // );
+            // console.log("Is Admin:", isAdmin);
+            
+            // navigate(isAdmin ? "/dashboard/adminHome" : from, { replace: !isAdmin });
+
             navigate(from, { replace: true });
           })
           .catch((err) => {

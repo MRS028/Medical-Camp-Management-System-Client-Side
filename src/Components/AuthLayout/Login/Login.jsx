@@ -9,6 +9,8 @@ import Swal from "sweetalert2";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import useAuth from "../../../Hooks/useAuth";
 import useScrollToTop from "../../../Hooks/useScrollToTop";
+import useUsers from "../../../Hooks/useUsers";
+import useAdmin from "../../../Hooks/useAdmin";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -17,27 +19,34 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [users,loading] = useUsers();
   const { logIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  useScrollToTop();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  // const [isAdmin, isAdminLoading] = useAdmin()
+   useScrollToTop();
 
   const from = location.state?.from?.pathname || "/";
-
+  // const adminUsers = users.filter((user) => user.role === "admin");
+  // console.log(adminUsers)
   const onSubmit = (data) => {
     logIn(data.email, data.password).then((result) => {
       const user = result.user;
+      // console.log(user.email)
       Swal.fire({
         title: "Login Success",
         text: "Assalamuwalaikum, Welcome to our MediCamp",
         icon: "success",
         timer: 1500,
       });
-      navigate(from, { replace: true });
+
+  
+      const isAdmin = users.some(
+        (u) => u.email === user.email && u.role === "admin"
+      );
+      // console.log("Is Admin:", isAdmin);
+      
+      navigate(isAdmin ? "/dashboard/adminHome" : from, { replace: !isAdmin });
     });
   };
 
