@@ -80,7 +80,7 @@ const JoinCampModal = ({ camp, onClose, onRegister }) => {
         });
         
 
-        axiosPublic
+        axiosSecure
           .post("/join-camps", registrationData)
           .then(() => {
             Swal.close();
