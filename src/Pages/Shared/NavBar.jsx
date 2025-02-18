@@ -86,6 +86,20 @@ const NavBar = () => {
           Doctors
         </NavLink>
       </li>
+      <li>
+        <NavLink
+          to="/aboutUs"
+          className={({ isActive }) =>
+            isActive
+              ? "text-white font-semibold border-b"
+              : "text-gray-800 hover:text-white hover:border-b-2 hover:border-white"
+          }
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+         About US
+        </NavLink>
+      </li>
+      
       {user && user.email ? (
         <li>
           <NavLink

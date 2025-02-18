@@ -24,6 +24,9 @@ import Home from "../Home/Home/Home";
 import Doctors from "../Pages/Doctor/Doctors";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import ForgotPassword from "../Components/AuthLayout/ForgetPassword/ForgotPassword";
+import PaymentSuccess from "../Dashboard/Payment/PaymentSuccess";
+import AboutUs from "../Components/AboutUs/AboutUs";
+
 
 const Router = createBrowserRouter([
   {
@@ -41,6 +44,10 @@ const Router = createBrowserRouter([
       {
         path: "/doctors",
         element: <Doctors></Doctors>,
+      },
+      {
+        path: "/aboutUs",
+        element: <AboutUs/>,
       },
       {
         path: "/campDetails/:id",
@@ -145,6 +152,10 @@ const Router = createBrowserRouter([
       {
         path: "payment",
         element: <Payment />,
+      },
+      {
+        path: "payment-success/:trxnId",
+        element: <PaymentSuccess />,
       },
       {
         path: "paymentHistory",

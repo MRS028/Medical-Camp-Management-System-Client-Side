@@ -17,6 +17,8 @@ import Swal from "sweetalert2";
 const ManageRegisteredCamps = () => {
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   useScrollToTop();
   const {
     data: registeredCamps = [],
@@ -202,6 +204,14 @@ const ManageRegisteredCamps = () => {
     )
     .reverse();
 
+
+    const totalPages = Math.ceil(filteredCamps.length / itemsPerPage);
+    const paginatedCamps = filteredCamps.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
+    
+
   return (
     <div className="p-2 ">
       <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
@@ -242,7 +252,7 @@ const ManageRegisteredCamps = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredCamps.map((camp, index) => (
+            {paginatedCamps.map((camp, index) => (
               <tr
                 key={camp.id}
                 className="text-center border-t hover:bg-gray-100 transition-all duration-200"
@@ -321,7 +331,7 @@ const ManageRegisteredCamps = () => {
                     data-tooltip-id="cancel-tooltip"
                     data-tooltip-content="Cancel registration"
                   >
-                    <FaTimesCircle size={22} className="mr-1" /> Cancel
+                    <FaTimesCircle size={16} className="mr-1" /> Cancel
                   </button>
                   <button
                     onClick={() => handleDelete(camp)}
@@ -329,7 +339,7 @@ const ManageRegisteredCamps = () => {
                     data-tooltip-id="delete-tooltip"
                     data-tooltip-content="Delete This"
                   >
-                    <FaTrash size={22} className="mr-1" /> Delete
+                    <FaTrash size={16} className="mr-1" /> Delete
                   </button>
                 </td>
                 {/* <td className="px-6 py-4  gap-4">
@@ -357,6 +367,25 @@ const ManageRegisteredCamps = () => {
           <></>
         )}
       </div>
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center mt-6">
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-gradient-to-r from-teal-500 font-semibold to-green-500 text-white"}`}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2">Page {currentPage} of {totalPages}</span>
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-gradient-to-r from-teal-500 font-semibold to-green-500 text-white"}`}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
 
       <Tooltip id="payment-tooltip" />
       <Tooltip id="cancel-tooltip" />

@@ -31,7 +31,7 @@ const Login = () => {
   // console.log(adminUsers)
   const onSubmit = (data) => {
     logIn(data.email, data.password).then((result) => {
-      const user = result.user;
+      const user = result.user; 
       // console.log(user.email)
       Swal.fire({
         title: "Login Success",
@@ -47,7 +47,14 @@ const Login = () => {
       // console.log("Is Admin:", isAdmin);
       
       navigate(isAdmin ? "/dashboard/adminHome" : from, { replace: !isAdmin });
-    });
+    }).catch(err =>{
+      // console.log(err)
+      Swal.fire({
+        title: "Login Failed",
+        text: err.message || "Something went wrong. Please try again.",
+        icon: "error",
+      });
+    })
   };
 
   const lottieOptions = {

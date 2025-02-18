@@ -12,8 +12,10 @@ const ManageCamp = () => {
   const [selectedCamp, setSelectedCamp] = useState();
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   useScrollToTop();
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchCamps = async () => {
@@ -100,6 +102,12 @@ const ManageCamp = () => {
     return <LoadingPage />;
   }
 
+  const totalPages = Math.ceil(filteredCamps.length / itemsPerPage);
+  const paginatedCamps = filteredCamps.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-md mt-6">
       <SectionTitle
@@ -143,7 +151,7 @@ const ManageCamp = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredCamps.map((camp, index) => (
+            {paginatedCamps.map((camp, index) => (
               <tr
                 key={camp._id}
                 className={`${
@@ -174,7 +182,7 @@ const ManageCamp = () => {
                 </td>
                 <td className="px-6 py-4 text-center font-semibold space-y-2">
                   <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 focus:outline-none"
+                    className="bg-gradient-to-r from-teal-500 to-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-teal-500 focus:outline-none"
                     onClick={() => setSelectedCamp(camp)}
                   >
                     <FaEdit />
@@ -200,6 +208,26 @@ const ManageCamp = () => {
           }
           onClose={() => setSelectedCamp(null)}
         />
+      )}
+
+{totalPages > 1 && (
+        <div className="flex justify-center items-center mt-6">
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-gradient-to-r from-teal-500 font-semibold to-green-500 text-white"}`}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2">Page {currentPage} of {totalPages}</span>
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-gradient-to-r from-teal-500 font-semibold to-green-500 text-white"}`}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
       )}
     </div>
   );
