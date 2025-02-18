@@ -23,7 +23,7 @@ const Analytics = () => {
 
   // Check if data is coming
   useEffect(() => {
-    console.log("JoinedCamps Data:", JoinedCamps);
+    // console.log("JoinedCamps Data:", JoinedCamps);
 
     if (Array.isArray(JoinedCamps) && JoinedCamps.length > 0) {
       const formattedData = JoinedCamps.map((camp) => ({
@@ -35,7 +35,7 @@ const Analytics = () => {
     }
   }, [JoinedCamps]);
 
-  console.log("Chart Data:", chartData);
+  // console.log("Chart Data:", chartData);
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-300 min-h-screen">
