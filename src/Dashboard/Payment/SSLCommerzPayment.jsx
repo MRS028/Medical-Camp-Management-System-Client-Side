@@ -29,7 +29,7 @@ const SSLCommerzPayment = ({ camp }) => {
       paymentStatus: "Paid",
     };
     console.log(paymentData);
-    const res = await axios.post("http://localhost:5000/payment",paymentData);
+    const res = await axios.post("https://medical-camp-management-system-server-theta.vercel.app/payment",paymentData);
     // window.location.replace(res.data.url)
     if (res.data.url) {
       window.location.href = res.data.url; 
